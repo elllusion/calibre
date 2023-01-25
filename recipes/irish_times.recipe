@@ -1,0 +1,114 @@
+__license__  = 'GPL v3'
+__copyright__ = "2008, Derry FitzGerald. 2009 Modified by Ray Kinsella and David O'Callaghan, 2011 Modified by Phil Burns, 2013 Tom Scholl, 2016 by leo738"
+'''
+irishtimes.com
+'''
+import json
+from uuid import uuid4
+from mechanize import Request
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
+
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+class IrishTimes(BasicNewsRecipe):
+    title          = u'The Irish Times'
+    __author__    = "Derry FitzGerald, Ray Kinsella, David O'Callaghan and Phil Burns, Tom Scholl"
+    description = 'Daily news from The Irish Times'
+    needs_subscription = True
+
+    language = 'en_IE'
+
+    masthead_url = 'http://www.irishtimes.com/assets/images/generic/website/logo_theirishtimes.png'
+
+    encoding = 'utf-8'
+    oldest_article = 1.0
+    max_articles_per_feed = 100
+    simultaneous_downloads = 5
+    remove_empty_feeds = True
+    no_stylesheets = True
+    temp_files = []
+    keep_only_tags = [
+        dict(name=['h1', 'h2']),
+        classes('lead-art-wrapper article-body-wrapper'),
+    ]
+    remove_tags = [
+        dict(name='button')
+    ]
+    remove_attributes = ['width', 'height']
+
+    def parse_index(self):
+        soup = self.index_to_soup('https://www.irishtimes.com/')
+        section = 'Home page'
+        articles = []
+        feeds = []
+        for x in soup.findAll(name=['h3', 'article']):
+            if x.name == 'h3':
+                if 'writer_description' in x.get('class') or '':
+                    continue
+                articles and feeds.append((section, articles))
+                section = self.tag_to_string(x)
+                articles = []
+                self.log('Section:', section)
+                continue
+            a = x.find('a', attrs={'class': lambda x: x and 'primary-font'}, href=True)
+            if a is None:
+                a = x.find('a', attrs={'class': lambda x: x and 'promo-headline' in x}, href=True)
+            if a:
+                q = ''.join(a['class'])
+                if 'secondary-font' in q and section == 'Home page':
+                    continue
+                title = self.tag_to_string(a)
+                url = a['href']
+                if url.startswith('/'):
+                    url = 'https://www.irishtimes.com' + url
+                articles.append({'title': title, 'url': url})
+                self.log('\t', title)
+        articles and feeds.append((section, articles))
+        return feeds
+
+    def get_browser(self):
+        # To understand the signin logic read signin javascript from submit button from
+        # https://www.irishtimes.com/signin
+
+        br = BasicNewsRecipe.get_browser(self, user_agent='curl/7.80.0')
+        ip_data = json.loads(br.open('https://ipapi.co//json').read())
+        br = BasicNewsRecipe.get_browser(self)
+        url = 'https://www.irishtimes.com/signin'
+        deviceid = str(uuid4()).replace('-', '')
+        # Enable debug stuff?
+        # br.set_debug_http(True)
+        br.open(url).read()
+        from pprint import pprint
+        pprint(ip_data)
+        br.set_cookie('IT_country', ip_data['country_code'], '.irishtimes.com')
+        br.set_cookie('IT_eu', 'true' if ip_data['in_eu'] else 'false', '.irishtimes.com')
+        rurl = 'https://www.irishtimes.com/auth-rest-api/v1/paywall/login'
+        rq = Request(rurl, headers={
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Origin': 'https://www.irishtimes.com',
+            'Referer': url,
+            'X-Requested-With': 'XMLHttpRequest',
+            'sec-fetch-site': 'same-origin',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+        },  data=urlencode({'username': self.username, 'password': self.password, 'deviceid':deviceid, 'persistent':'on', 'rid': ''}))
+
+        r = br.open(rq)
+        raw = r.read()
+        data = json.loads(raw)
+        # print(data)
+        if r.code != 200 or b'user_id' not in raw:
+            pprint(data)
+            raise ValueError('Failed to log in check username/password')
+
+        # Set cookie
+        br.set_cookie('IT_PW_AUTH', data['varnish_id'], '.irishtimes.com')
+
+        # br.set_debug_http(False)
+        return br

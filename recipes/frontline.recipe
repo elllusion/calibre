@@ -1,0 +1,79 @@
+from collections import defaultdict
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+class Frontline(BasicNewsRecipe):
+    title = u'Frontline'
+    __author__ = 'unkn0wn'
+    description = 'Frontline, the fortnightly English magazine from the stable of The Hindu, has been a distinguished presence in the media world since 1984.'
+    language = 'en_IN'
+    no_stylesheets = True
+    remove_javascript = True
+    use_embedded_content = False
+    encoding = 'utf-8'
+    ignore_duplicate_articles = {'url'}
+    masthead_url = 'https://frontline.thehindu.com/theme/images/fl-online/frontline-logo.png'
+    remove_attributes = ['height', 'width']
+    resolve_internal_links = True
+    extra_css = '''
+        .overline{ font-size:small; color:#404040; }
+        .person-name { font-size:small; font-weight:bold; }
+        .lead-img-caption, .caption-cont { font-size:small; text-align:center; }
+    '''
+
+    keep_only_tags = [
+        classes('article')
+    ]
+
+    remove_tags = [
+        classes('shareicon-article articleBottomLine secheader mobilesocialicons'),
+        dict(name='h2', attrs={'class':'title'})
+    ]
+
+    def preprocess_html(self, soup):
+        for img in soup.findAll('img', attrs={'data-original':True}):
+            if img['data-original'].endswith('1x1_spacer.png'):
+                source = img.findPrevious('source', srcset=True)
+                img.extract()
+                if source:
+                    source['src'] = source['srcset']
+                    source.name = 'img'
+            else:
+                img['src'] = img['data-original']
+        for cap in soup.findAll(**classes('caption-cont')):
+            cap.name = 'figcaption'
+        return soup
+
+    def postprocess_html(self, soup, first_fetch):
+        for src in soup.findAll('source'):
+            src.extract()
+        return soup
+
+    def parse_index(self):
+        soup = self.index_to_soup('https://frontline.thehindu.com/magazine/')
+        issue = soup.find(**classes('sptar-archive-item')).find('a')['href']
+        self.log(issue)
+        soup = self.index_to_soup(issue)
+        time = soup.find(**classes('date')).findNext('h3')
+        if time:
+            self.timefmt = ' ' + self.tag_to_string(time)
+            self.log('Downloading Issue:', self.timefmt)
+        self.cover_url = soup.find(**classes('sptar-cover-item')).find('img')['data-original'].replace('FREE_320', 'FREE_810')
+        feeds_dict = defaultdict(list)
+        for div in soup.findAll('div', attrs={'class':'brief-list-item'}):
+            a = div.find(**classes('brief-title')).find('a')
+            url = a['href']
+            title = self.tag_to_string(a)
+            section = 'Articles'
+            cat = div.find(**classes('brief-cat'))
+            if cat:
+                section = self.tag_to_string(cat)
+            desc = ''
+            art = div.find(**classes('artbody'))
+            if art:
+                desc = self.tag_to_string(art)
+            if not url or not title:
+                continue
+            self.log(section, '\n\t', title, '\n\t', desc, '\n\t\t', url)
+            feeds_dict[section].append({"title": title, "url": url})
+        return [(section, articles) for section, articles in feeds_dict.items()]

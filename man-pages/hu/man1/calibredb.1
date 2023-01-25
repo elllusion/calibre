@@ -1,0 +1,1102 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CALIBREDB" "1" "január 06, 2023" "6.11.0" "calibre"
+.SH NAME
+calibredb \- calibredb
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb parancs [kapcsolók] [argumentumok]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+\fBcalibredb\fP a Calibre adatbázis parancssori felülete. Számos
+al\-parancsa van, amelyeket alább dokumentálunk.
+.sp
+\fBcalibredb\fP a :command:\(ga az elérési útvonal által megadott Calibre
+adatbázis, vagy a helyi gépen vagy az interneten futó Content
+server Calibre manipulálására használható. A Calibre Content
+server programot vagy a \fBcalibre\-server\fP programmal indíthatja el,
+vagy a Calibre főprogramban a Connect/share  →  Start Content
+server gombra kattintva. Mivel a \fBcalibredb\fP módosíthatja a
+Calibre könyvtárakat, először be kell állítania a hitelesítést a szerveren.
+Ennek két módja van:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+Ha csak egy ugyanazon a számítógépen futó kiszolgálóhoz kíván
+csatlakozni, egyszerűen használja a tartalomkiszolgáló \fB\-\-enable\-local\-write\fP
+opcióját, hogy engedélyezze a helyi számítógépen futó programokat,
+beleértve a calibredb\-t is. hogy módosítsa a Calibre adatokat. Amikor a
+szervert a fő Calibre programból futtatja, ez az opció a :guilabel:
+.nf
+\(ga
+.fi
+Beállítások\-
+>Hálózati megosztás\->Speciális menüpontban található.
+.IP \(bu 2
+Ha engedélyezni szeretné az interneten keresztüli hozzáférést, akkor állítson be
+felhasználói fiókokat a szerveren, és használja az \fI\%\-\-username\fP és \fI\%\-\-password\fP opciókat
+a \fBcalibredb\fP hozzáférésének beállításához. Beállíthatja a felhasználói hitelesítést a
+\fBcalibre\-server\fP számára az \fB\-\-enable\-auth\(ga\(gaopció használatával és a \(ga\(ga\-\-manage\-users\fP
+használatával a felhasználói fiókok létrehozásához. Ha a szervert a fő Calibre programból
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B futtatja, használja a :guilabel:
+.nf
+\(ga
+.fi
+Beállítások\->Hálózati megosztás\->A Tartalomszolgáltató eléréséhez
+felhasználói név és jelszó szükséges\(ga parancsot.
+.UNINDENT
+.sp
+Egy futó tartalomkiszolgálóhoz való csatlakozáshoz adja meg a kiszolgáló
+URL címét az \fI\%\-\-with\-library\fP opciónak. A részletekért és példákért
+tekintse meg az opció dokumentációját.
+.INDENT 0.0
+.IP \(bu 2
+\fI\%GLOBÁLIS BEÁLLÍTÁSOK\fP
+.IP \(bu 2
+\fI\%list\fP
+.IP \(bu 2
+\fI\%add\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%HOZZÁADÁS MAPPÁKBÓL\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%remove\fP
+.IP \(bu 2
+\fI\%add_format\fP
+.IP \(bu 2
+\fI\%remove_format\fP
+.IP \(bu 2
+\fI\%show_metadata\fP
+.IP \(bu 2
+\fI\%set_metadata\fP
+.IP \(bu 2
+\fI\%export\fP
+.IP \(bu 2
+\fI\%catalog\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%EPUB BEÁLLÍTÁSOK\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%saved_searches\fP
+.IP \(bu 2
+\fI\%add_custom_column\fP
+.IP \(bu 2
+\fI\%custom_columns\fP
+.IP \(bu 2
+\fI\%remove_custom_column\fP
+.IP \(bu 2
+\fI\%set_custom\fP
+.IP \(bu 2
+\fI\%restore_database\fP
+.IP \(bu 2
+\fI\%check_library\fP
+.IP \(bu 2
+\fI\%list_categories\fP
+.IP \(bu 2
+\fI\%backup_metadata\fP
+.IP \(bu 2
+\fI\%clone\fP
+.IP \(bu 2
+\fI\%embed_metadata\fP
+.IP \(bu 2
+\fI\%search\fP
+.IP \(bu 2
+\fI\%fts_index\fP
+.IP \(bu 2
+\fI\%fts_search\fP
+.UNINDENT
+.SH GLOBÁLIS BEÁLLÍTÁSOK
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+súgó megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-library\-path, \-\-with\-library
+Útvonal a Calibre könyvtárhoz. Alapértelmezés szerint a beállításokban tárolt útvonalat kell használni. Csatlakozhat egy Calibre  tartalomkiszolgálóhoz is, hogy távoli könyvtárakon hajtson végre műveleteket. Ehhez használja a következő formátumú URL\-t: \fI\%http://hostname:port/#library_id\fP, például: \fI\%http://localhost:8080/#mylibrary\fP\&. A library_id annak a könyvtárnak az azonosítója, amelyhez a tartalomkiszolgálón csatlakozni kíván. Használhatja a \- speciális library_id értékét a szerveren elérhető könyvtárazonosítók listájának megtekintéséhez. A tartalomszerveren keresztüli hozzáférés beállításának részleteiért lásd: \fI\%https://manual.calibre\-ebook.com/generated/en/calibredb.html\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-password
+Jelszó a Calibre tartalomkiszolgálóhoz való csatlakozáshoz. A jelszó normál bemenetről történő olvasásához használja a speciális értéket: <stdin>. A jelszó fájlból való olvasásához használja: <f:/path/to/file> (azaz <f: followed by the full path to the file and a trailing >). A fenti szögletes zárójelek kötelezőek, ne felejtse el kihagyni őket, vagy használjon idézőjeleket a \fB\(dq\fPshell\fB\(dq\fP\-hez.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timeout
+Időtúllépés másodpercben, amikor a hálózaton keresztül csatlakozik egy Calibre könyvtárhoz. Az alapértelmezett érték két perc.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-username
+Felhasználónév a Calibre Tartalomkiszolgálóhoz történő kapcsolódáshoz
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+program verziójának megjelenítése és kilépés
+.UNINDENT
+.SH LIST
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb list [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+A Calibre adatbázisában lévő könyvek :command:
+.nf
+\(ga
+.fi
+list\(gaája.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-ascending
+Rendezési emelkedő sorrendben
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-fields, \-f
+A könyvek adatbázisban való listázásakor megjelenítendő mezők. A mezők vesszővel elválasztott listája legyen. Elérhető mezők: author_sort, authors, comments, cover, formats, identifiers, isbn, languages, last_modified, pubdate, publisher, rating, series, series_index, size, tags, template, timestamp, title, uuid Alapértelmezett: title,authors. Az \fB\(dq\fPMind” speciális mezővel az összes mezőt kijelölhetjük. A fenti beépített mezőkön kívül egyéni mezők \fB\(aq\fP*field_name\fB\(aq\fP néven is elérhetők, például egyéni mezőhöz #rating használja a következő nevet: *értékelés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-for\-machine
+Kimenet generálása JSON formátumban, amely alkalmasabb a gépi elemzésre. A vonalszélesség és az elválasztó beállítások figyelmen kívül hagyását okozza.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-limit
+A megjeleníthető eredmények maximális száma. Alapértelmezett: mind (all)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-line\-width, \-w
+Egy sor maximális szélessége a kimenetben. A képernyőmérethez szükséges.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-prefix
+Minden elérési útvonal előtagja. Alapértelmezettként az adatbázis mappájának elérési útja.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-search, \-s
+Keresési eredmény szűrése. A keresési feltétel megadásához tanulmányozza meg a Felhasználói Kézikönyv ide vonatkozó részét. Alapértelmezésként nincs szűrés.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-separator
+A mezők elválasztására szolgáló karakter vagy szöveg. Alapbeállítás a szóköz.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sort\-by
+The field by which to sort the results. You can specify multiple fields by separating them with commas. Available fields: author_sort, authors, comments, cover, formats, identifiers, isbn, languages, last_modified, pubdate, publisher, rating, series, series_index, size, tags, template, timestamp, title, uuid Default: id
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template
+The template to run if \fB\(dq\fPtemplate\fB\(dq\fP is in the field list. Default: None
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template_file, \-t
+Path to a file containing the template to run if \fB\(dq\fPtemplate\fB\(dq\fP is in the field list. Default: None
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template_heading
+Heading for the template column. Default: template. This option is ignored if the option \fI\%\-\-for\-machine\fP is set
+.UNINDENT
+.SH ADD
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb add [opciók] fájl1 fájl2 fájl3 ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Adja hozzá a megadott fájlokat könyvként az adatbázishoz. Megadhat mappákat is,
+lásd alább a mappákkal kapcsolatos beállításokat.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-authors, \-a
+A hozzáadott könyv(ek) szerzőjének megadása
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-automerge, \-m
+Ha hasonló címmel és szerzővel rendelkező könyveket talál, a bejövő formátumokat (fájlokat) automatikusan egyesíti a meglévő könyvrekordokba. Az \fB\(dq\fPignore \- kihagyás\fB\(dq\fP érték azt jelenti, hogy a duplikált formátumokat a rendszer elveti. Az \fB\(dq\fPoverwrite \- felülírás\fB\(dq\fP érték azt jelenti, hogy a könyvtárban található duplikált formátumok felülíródnak az újonnan hozzáadott fájlokkal. A \fB\(dq\fPnew_record \- új_rekord\fB\(dq\fP értéke azt jelenti, hogy a duplikált formátumok egy új könyvrekordba kerülnek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cover, \-c
+Hozzáadott címkép helye
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-duplicates, \-d
+Könyvek hozzáadása az adatbázishoz akkor is, ha már léteznek. Az összehasonlítás a könyvcímek és szerzők alapján történik. Vegye figyelembe, hogy \fI\%\-\-automerge\fP opció élvez elsőbbséget.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-empty, \-e
+Üres könyv hozzáadása (könyv formátumok nélkül)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-identifier, \-I
+Állítsa be a könyv azonosítóit, pl. \-I asin:XXX \-I isbn:YYY
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-isbn, \-i
+A hozzáadott könyv(ek) ISBN\-azonosítójának megadása
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-languages, \-l
+A nyelvek vesszővel elválasztott listája (legjobb az ISO639 nyelvi kódok használatához, bár egyes nyelveket is fel lehet ismerni)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-series, \-s
+A hozzáadott könyv(ek) sorozatának megadása
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-series\-index, \-S
+A hozzáadott könyv(ek) sorozatszámának megadása
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-tags, \-T
+A hozzáadott könyv(ek) címkéinek megadása
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-title, \-t
+A hozzáadott könyv(ek) címének megadása
+.UNINDENT
+.SS HOZZÁADÁS MAPPÁKBÓL
+.sp
+Lehetőségek a könyvek mappákból történő hozzáadásának szabályozására. Alapértelmezés szerint csak azok a fájlok kerülnek hozzáadásra, amelyek kiterjesztése ismert e\-könyv fájltípusokra vonatkozik.
+.INDENT 0.0
+.TP
+.B \-\-add
+Fájlnév (glob) minta, ennek a mintának megfelelő fájlok hozzáadódnak a mappák fájlok keresésekor, még akkor is, ha azok nem ismert e\-könyv fájltípusúak. Több mintához többször is megadható.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore
+A fájlnév (glob) minta, az ennek a mintának megfelelő fájlok figyelmen kívül maradnak a mappák fájlok keresésekor. Több mintához többször is megadható. Például: *.pdf figyelmen kívül hagy minden PDF fájlt
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-one\-book\-per\-directory, \-1
+Tételezzük fel, hogy minden mappában csak egyetlen logikai könyv található, és a benne lévő összes fájl az adott könyv különböző e\-könyv\-formátumai
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-recurse, \-r
+Mappák rekurzív feldolgozása
+.UNINDENT
+.SH REMOVE
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb remove ids
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+eltávolítja az azonosítókkal azonosított könyveket az adatbázisból. Az id\-k az azonosítószámok vesszővel elválasztott listája kell lennie (az azonosítószámokat a keresés paranccsal kaphatja meg). Például 23,34,57\-85 (tartomány megadásakor a tartomány utolsó száma nem szerepel).
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-permanent
+Ne használja ezt: Lomtár
+.UNINDENT
+.SH ADD_FORMAT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb add_format [options] id ebook_file
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Hozzáadja az ebook_file fájlban található e\-könyvet az id által azonosított logikai könyv elérhető formátumaihoz. Az azonosítót a keresés paranccsal kaphatja meg. Ha a formátum már létezik, akkor a rendszer lecseréli, hacsak nincs megadva a nincs csere beállítás.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-dont\-replace
+Ne cserélje ki a formátumot, ha már létezik
+.UNINDENT
+.SH REMOVE_FORMAT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb remove_format [options] id fmt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Eltávolítja el az fmt formátumot az id által azonosított logikai könyvből. Az azonosítót a keresés paranccsal kaphatja meg. Az fmt egy fájlkiterjesztés, például LRF vagy TXT vagy EPUB. Ha a logikai könyvben nem elérhető az fmt, ne tegyen semmit.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.SH SHOW_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb show_metadata [options] id
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Megjeleníti az id által azonosított könyv Calibre adatbázisában tárolt metaadatokat.
+Az id a keresési parancsból származó azonosítószám.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-as\-opf
+Metaadatok nyomtatása OPF(XML) formátumban
+.UNINDENT
+.SH SET_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb set_metadata [options] book_id [/path/to/metadata.opf]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Set the metadata stored in the calibre database for the book identified by
+book_id from the OPF file metadata.opf. book_id is a book id number from the
+search command. You can get a quick feel for the OPF format by using the
+\-\-as\-opf switch to the show_metadata command. You can also set the metadata of
+individual fields with the \-\-field option. If you use the \-\-field option, there
+is no need to specify an OPF file.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-field, \-f
+A beállítandó mező. A formátum: field_name:value, például: \fI\%\-\-field\fP tags:tag1,tag2.  \fI\%\-\-list\-fields\fP segítségével lekérheti az összes mezőnév listáját. Ezt a beállítást többször is megadhatja több mező beállításához. Megjegyzés: nyelvek esetén az ISO639 nyelvkódokat kell használnia (pl. en angolhoz, fr franciához stb.). Az azonosítók szintaxisa: \fI\%\-\-field\fP identifiers:isbn:XXXX,doi:YYYYY. Logikai (igen/nem) mezőkhöz használja az igaz és hamis vagy az igen és nem értéket.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-list\-fields, \-l
+A \fI\%\-\-field\fP paraméterrel használható metaadat\-mezőnevek felsorolása
+.UNINDENT
+.SH EXPORT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb export [options] ids
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+:command:
+.nf
+\(ga
+.fi
+export\(gaálja az azonosítókkal (vesszővel tagolt lista) megadott könyveket a fájlrendszerbe.
+Az :command:
+.nf
+\(ga
+.fi
+export\(gaálási művelet a könyv összes formátumát, borítóját és metaadatait menti
+(egy opf fájlba). Az azonosító számokat a keresési parancsból kaphatja meg.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-all
+Minden könyv exportálása az adatbázisba. Ne vegye figyelembe az azonosító (ID) listát.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-asciiize
+A Calibre konvertálja az összes nem angol karaktert a fájlnevek angol megfelelőire. Ez akkor hasznos, ha régi fájlrendszerbe menti, és nem támogatja a Unicode fájlneveket. Ennek megadása kikapcsolja ezt az opciót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-save\-cover
+Normál esetben a Calibre egy önálló fájlban tárolja a borítót az adott e\-könyv egyéb fájljaival mellett. Ennek megadása kikapcsolja ezt az opciót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-update\-metadata
+Alapesetben a Calibre a mentett fájlokban felülírja a metaadatokat az adatbázisban lévőkkel. Ez lassítja a mentési folyamatot. Ennek megadása kikapcsolja ezt az opciót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-write\-opf
+Alapesetben a Calibre a metaadatokat egy különálló OPF fájlban tárolja a könyv saját mappájában. Ennek megadása kikapcsolja ezt az opciót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-formats
+A mentendő formátumok vesszővel tagolt listája. Alapesetben \fB\(aq\fPall\fB\(aq\fP, vagyis minden formátum mentésre kerül.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-progress
+Folyamatjelentés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-replace\-whitespace
+Szóközök helyettesítése alul\-vonással.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-single\-dir
+Minden könyv exportálása külön mappába
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template
+A mentett fájlok fájlnevének és mappaszerkezetének szabályozására szolgáló sablon. Az alapértelmezett: \fB\(dq\fP{author_sort}/{title}/{title} \- {authors}\fB\(dq\fP, amely a könyveket egy szerzőnkénti almappába menti, a címet és a szerzőt tartalmazó fájlnevekkel. A következő vezérlők állnak rendelkezésre {author_sort, authors, id, isbn, languages, last_modified, pubdate, publisher, rating, series, series_index, tags, timestamp, title}
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timefmt
+A megjelenítendő dátum formázása. %d \- nap, %b \- hónap, %m \- hónap száma, %Y \- év. Alapértelmezett: %b, %Y
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-to\-dir
+Könyvek exportálása egy meghatározott mappába. Alapértelmezett:  .
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-to\-lowercase
+Elérési út kisbetűssé alakítása.
+.UNINDENT
+.SH CATALOG
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb catalog /path/to/destination.(csv|epub|mobi|xml...) [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Export a \fBcatalog\fP in format specified by path/to/destination extension.
+Options control how entries are displayed in the generated \fBcatalog\fP output.
+Note that different \fBcatalog\fP formats support different sets of options. To
+see the different options, specify the name of the output file and then the
+\-\-help option.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-ids, \-i
+A katalogizálandó, adatbázisból vett ID\-k vesszővel tagolt listája. Ha meg van adva, akkor a \fI\%\-\-search\fP opció nem lesz figyelembe véve. Alapértelmezett: „all” (mind)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-search, \-s
+Az eredmény szűrése keresési lekérdezéssel. A keresési lekérdezés formátumáról bővebben a Felhasználói Kézikönyvben olvashat. Alapértelmezett: nincs szűrés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-verbose, \-v
+Részletes kimeneti információk megjelenítése. Hasznos hibakeresésnél
+.UNINDENT
+.SS EPUB BEÁLLÍTÁSOK
+.INDENT 0.0
+.TP
+.B \-\-catalog\-title
+A metaadatokban címként használt generált katalógus címe. Alapértelmezett: \fB\(aq\fPMy Books\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cross\-reference\-authors
+Kereszthivatkozások létrehozása a \fB\(dq\fPSzerzők\fB\(dq\fP részben több szerzőt tartalmazó könyvekhez. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-debug\-pipeline
+Az átalakítási folyamat különböző szakaszaiból származó kimenet mentése a megadott mappába. Hasznos, ha nem biztos abban, hogy az átalakítási folyamat melyik szakaszában történik hiba. Alapértelmezett: \fB\(aq\fPNone\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exclude\-genre
+Műfajként kizárandó címkéket leíró reguláris kifejezés. Alapértelmezett: \fB\(aq\fP[.+]|^+$\fB\(aq\fP nem tartalmazza a zárójeles címkéket, pl. \fB\(aq\fP[Project Gutenberg]\fB\(aq\fP, and \fB\(aq\fP+\fB\(aq\fP, az olvasott könyvek alapértelmezett címkéje. Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exclusion\-rules
+Meghatározza azokat a szabályokat, amelyek segítségével kizárják a könyveket a létrehozott katalógusból. A kizárási szabály modellje vagy (\fB\(aq\fP<rule name>\fB\(aq\fP,\fB\(aq\fPCímkék\fB\(aq\fP,\fB\(aq\fP<comma\-separated list of tags>\fB\(aq\fP) vagy (\fB\(aq\fP<rule name>\fB\(aq\fP,\fB\(aq\fP<custom column>\fB\(aq\fP,\fB\(aq\fP<pattern>\fB\(aq\fP). Például: ((\fB\(aq\fPArchivált könyvek\fB\(aq\fP,\fB\(aq\fP#status\fB\(aq\fP,\fB\(aq\fPArchivált\fB\(aq\fP),) kizárja az „Archivált” értékű könyvet az \fB\(dq\fPállapot” egyéni oszlopban. Ha több szabályt határoz meg, akkor az összes szabályt alkalmazni fogja. Alapértelmezett:  \fB\(dq\fP((\fB\(aq\fPCatalogs\fB\(aq\fP,\fB\(aq\fPTags\fB\(aq\fP,\fB\(aq\fPCatalog\fB\(aq\fP),)\fB\(dq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-authors
+Tartalmazza a \fB\(aq\fPSzerzők\fB\(aq\fP részt a katalógusban. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-descriptions
+Tartalmazza a \fB\(aq\fPLeírások\fB\(aq\fP részt a katalógusban. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-genres
+Tartalmazza a \fB\(dq\fPMűfajok” részt a katalógusban. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-recently\-added
+Tartalmazza a \fB\(aq\fPLegutóbb hozzáadva\fB\(aq\fP részt a katalógusban. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-series
+Tartalmazza a \fB\(dq\fPSorozatok” részt a katalógusban. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-titles
+Tartalmazza a \fB\(aq\fPCímek\fB\(aq\fP részt a katalógusban. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-genre\-source\-field
+A \fB\(dq\fPMűfajok” rész forrásmezője. Alapértelmezett: \fB\(aq\fPCímke\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-header\-note\-source\-field
+Egyéni mező, amely a \fB\(dq\fPLeírás\fB\(dq\fP fejlécébe beillesztendő megjegyzésszöveget tartalmaz.za. Alapértelmezett: \fB\(aq\fP\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-merge\-comments\-rule
+#<custom field>:[before|after]:[True|False] meghatározása:  <custom field> Egyéni mező, amely kommentekkel egyesítendő megjegyzéseket tartalmaz  [előtte|utána] A megjegyzésekhez kapcsolódó megjegyzések elhelyezése  [True|False] \- A megjegyzések és a kommentek közé vízszintes vonal kerül beillesztésre Alapértelmezett: \fB\(aq\fP::\fB\(aq\fP Alkalmazás: AZW3, EPUB, MOBI kimeneti formátumokhoz
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-output\-profile
+A kimeneti profil meghatározása. Egyes esetekben kimeneti profilra van szükség az eszköz katalógusának optimalizálásához. Például a „kindle” vagy a „kindle_dx” strukturált tartalomjegyzéket hoz létre szakaszokkal és cikkekkel. Alapértelmezett: \fB\(aq\fPNone\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-prefix\-rules
+Meghatározza azokat a szabályokat, amelyek az olvasott könyveket, kívánságlista elemeket és más, felhasználó által megadott előtagokat jelölik. Az előtag szabály modellje (\fB\(aq\fP<rule name>\fB\(aq\fP,\fB\(aq\fP<source field>\fB\(aq\fP,\fB\(aq\fP<pattern>\fB\(aq\fP,\fB\(aq\fP<prefix>\fB\(aq\fP). Ha több szabályt definiál, az első egyező szabály kerül felhasználásra. Alapértelmezett: \fB\(dq\fP((\fB\(aq\fPRead books\fB\(aq\fP,\fB\(aq\fPtags\fB\(aq\fP,\fB\(aq\fP+\fB\(aq\fP,\fB\(aq\fP✓\fB\(aq\fP),(\fB\(aq\fPWishlist item\fB\(aq\fP,\fB\(aq\fPtags\fB\(aq\fP,\fB\(aq\fPWishlist\fB\(aq\fP,\fB\(aq\fP×\fB\(aq\fP))\fB\(dq\fP Alkalmazás: AZW3, EPUB, MOBI kimeneti formátumokhoz
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-preset
+Egy, a GUI katalóguskészítővel létrehozott előre beállított készlet használata. Egy előre beállított készlet megadja a katalógus létrehozásához szükséges összes beállítást.. Alapértelmezett: \fB\(aq\fPNone\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-thumb\-width
+Méretmutató jüvelykben)  a katalógusban szereplő könyvborítókhoz. Tartomány: 1.0 \- 2.0 Alapértelmezett: \fB\(aq\fP1.0\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-use\-existing\-cover
+A meglévő borító kicserélése katalógus generálásakor. Alapértelmezett: \fB\(aq\fPFalse\fB\(aq\fP Érvényes: AZW3, EPUB, MOBI kimeneti formátumokra
+.UNINDENT
+.SH SAVED_SEARCHES
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb saved_searches [options] (list|add|remove)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Az adatbázisban tárolt mentett keresések kezelése.
+Ha olyan lekérdezést próbál hozzáadni, amely már létezik, akkor az lecserélődik.
+.sp
+Szintaxis a hozzáadáshoz:
+.sp
+calibredb \fBsaved_searches\fP add search_name search_expression
+.sp
+Szintaxis az eltávolításhoz:
+.sp
+calibredb \fBsaved_searches\fP remove search_name
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.SH ADD_CUSTOM_COLUMN
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb add_custom_column [kapcsolók] oszlop_nev cím adattípus
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Saját oszlop készítése. Az „oszlop_nev” az oszlop tárolt neve, angol karaktereket
+tartalmazzon, de ne legyen benne szóköz és kettőspont. A „cím” az oszlop
+felhasználóbarát címe.
+Az „adattípus” lehet: bool, comments, composite, datetime, enumeration, float, int, rating, series, text
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-display
+Az ebben az oszlopban lévő adatok értelmezési módjának testreszabására szolgáló lehetőségek szótára. Ez egy JSON karakterlánc. Felsorolási oszlopokhoz használja a \fI\%\-\-display\fP\fB\(dq\fP{\e \fB\(dq\fPenum_values\e \fB\(dq\fP:[\e \fB\(dq\fPval1\e \fB\(dq\fP, \e \fB\(dq\fPval2\e \fB\(dq\fP]}\fB\(dq\fP A megjelenítési változóban számos lehetőség szerepelhet. Az oszloptípus szerinti beállítások a következők: összetett: composite_template, composite_sort, make_category,contains_html, use_decorations datetime: date_format felsorolás: enum_values, enum_colors, use_decorations int, float: number_format szöveg: is_names, use_decorations  A legális kombinációk megtalálásának legjobb módja, ha létrehoz egy megfelelő típusú egyéni oszlopot a grafikus felhasználói felületen, majd megnézi a könyv biztonsági másolatát (győződjön meg arról, hogy az oszlop hozzáadása óta új OPF jött létre). Látni fogja a JSON\-t az új oszlop \fB\(dq\fPmegjelenítéséhez” az OPF\-ben.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-is\-multiple
+Az oszlop címke\-szerű (több elem, vesszővel tagolva) adatokat tárol. Csak szöveg adattípusnál használható.
+.UNINDENT
+.SH CUSTOM_COLUMNS
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb custom_columns [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Az elérhető oszlopok kilistázása. Megjeleníti az oszlop tárolt címét és azonosítóját.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-details, \-d
+Részletek mutatása minden oszlopnál.
+.UNINDENT
+.SH REMOVE_CUSTOM_COLUMN
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb remove_custom_column [options] label
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Eltávolítja a címkével azonosított egyéni oszlopot. Az elérhető
+oszlopokat a \(aqcustom_columns\(aq paranccsal tekintheti meg.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-force, \-f
+Ne kérjen megerősítést
+.UNINDENT
+.SH SET_CUSTOM
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb set_custom [options] column id value
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Beállítja az azonosítóval azonosított könyv egyéni oszlopának értékét.
+Az azonosítók listáját a keresés paranccsal kaphatja meg.
+Az egyéni oszlopnevek listáját a \(aqcustom_columns\(aq paranccsal
+kaphatja meg.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-append, \-a
+Ha az oszlop több értéket tárol, akkor a megadott értéket adja a meglévőkhöz és cserélje le őket.
+.UNINDENT
+.SH RESTORE_DATABASE
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+Az adatbázis visszaállítása a Calibre könyvtár minden mappájában
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+található OPF\-fájlokban tárolt metaadatokból. Ez akkor hasznos, ha
+a metadata.db fájl sérült.
+.sp
+FIGYELMEZTETÉS: Ez a parancs teljesen újragenerálja az adatbázist.
+Elveszíti az összes mentett keresést, felhasználói kategóriát, plugboardot,
+könyvenként tárolt átalakítási beállításokat és egyéni recepteket.
+A visszaállított metaadatok csak annyira pontosak, mint az
+OPF\-fájlokban találhatók.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-really\-do\-it, \-r
+Tényleg állítsa vissza az adatbázist. Enélkül az opció nélkül nem fut a parancs.
+.UNINDENT
+.SH CHECK_LIBRARY
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb check_library [kapcsolók]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Néhány ellenőrzés lefuttatása a könyvtár belső fájlrendszerén. Visszajelzések: invalid_titles, extra_titles, invalid_authors, extra_authors, missing_formats, extra_formats, extra_files, missing_covers, extra_covers, failed_folders
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-csv, \-c
+CSV kimenet
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore_extensions, \-e
+A kihagyandó kiterjesztések vesszővel tagolt listája. Alapértelmezett: all (mind)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore_names, \-n
+Vesszővel elválasztott lista a kihagyandó nevekkel. Alapértelmezett: Összes
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-report, \-r
+A naplók vesszővel elválasztott listája. Alapértelmezés: mind
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-vacuum\-fts\-db
+A teljes szöveges keresés adatbázis kitiszítása. Ez a művelet nagyon lassú és memóriaigényes lehet az adatbázis méretétől függően.
+.UNINDENT
+.SH LIST_CATEGORIES
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb list_categories [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Jelentést készít az adatbázisban lévő kategóriainformációkról.
+Az információ megegyezik a Címkeböngészőben megjelenő információkkal.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-categories, \-r
+A kategória keresőneveinek vesszővel elválasztott listája. Alapértelmezett: mind (all)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-csv, \-c
+CSV kimenet
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dialect
+A létrehozandó CSV\-fájl típusa. Választási lehetőségek: excel, excel\-tab, unix
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-item_count, \-i
+Csak a kategórián belüli elemek számát adja meg az egyes elemekhez tartozó darabszámok helyett
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-width, \-w
+Egy sor maximális szélessége a kimenetben. A képernyőmérethez szükséges.
+.UNINDENT
+.SH BACKUP_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb backup_metadata [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Biztonsági másolatot készít az adatbázisban tárolt metaadatokról az egyes könyvek mappájában
+lévő egyedi OPF\-fájlokba. Ez általában automatikusan megtörténik, de ezt a
+parancsot futtathatja az OPF fájlok újragenerálására az \(aq\-\-all\(aq kapcsolóval.
+.sp
+Ne feledje, hogy erre általában nincs szükség, mivel az OPF\-fájlokról a rendszer automatikusan
+biztonsági másolatot készít minden metaadat megváltoztatásakor.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-all
+Általában ez a parancs csak azokon a könyveken működik, amelyekben elavult OPF\-fájlok vannak. Ezzel az opcióval minden könyvön működik.
+.UNINDENT
+.SH CLONE
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb clone path/to/new/library
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Hozzon létre egy klónt az aktuális könyvtárból. Ezzel egy új, üres könyvtárat hoz létre,
+amely ugyanazokkal az egyéni oszlopokkal, virtuális könyvtárakkal és
+egyéb beállításokkal rendelkezik, mint az aktuális könyvtárban.
+.sp
+A klónozott könyvtár nem tartalmaz majd könyveket. Ha teljes másolatot hozna létre,
+beleértve az összes könyvet, egyszerűen használja a fájlrendszer eszközeit a könyvtármappa
+másolásához.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.SH EMBED_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb embed_metadata [options] book_id
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Frissíti a Calibre könyvtárban tárolt tényleges könyvfájlok metaadatait a Calibre\-adatbázis metaadataiból.
+Normális esetben a metaadatok csak akkor frissülnek, ha fájlokat exportálunk a Calibre\-ből.
+Ez a parancs akkor hasznos, ha azt szeretné, hogy a fájlok a helyükön legyenek frissítve. Vegye figyelembe,
+hogy a különböző fájlformátumok eltérő mennyiségű metaadatot támogatnak.
+A book_id speciális \(dqall” értékével frissítheti az összes könyv metaadatait. Számos könyvazonosítót is
+megadhat szóközzel elválasztva, és azonosító tartományt kötőjellel elválasztva.
+Például: calibredb \fBembed_metadata\fP 1 2 10\-15 23
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-only\-formats, \-f
+Csak a megadott formátumú fájlok metaadatait frissítése. Több formátum esetén adja meg többször. Alapértelmezés szerint minden formátum frissül.
+.UNINDENT
+.SH SEARCH
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb search [options] search expression
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Keres a könyvtárban a megadott keresési kifejezésre, és a keresési kifejezésnek megfelelő
+könyvazonosítók vesszővel elválasztott listáját adja vissza. A kimeneti formátum hasznos más olyan
+parancsok betáplálásához, amelyek elfogadják az azonosítók listáját bemenetként.
+.sp
+A keresési kifejezés bármi lehet a Calibre hatékony keresési lekérdezési nyelvéből, például: calibredb \fBsearch\fP author:asimov \(aqtitle:\(dqi robot\(dq\(aq
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-limit, \-l
+A visszaküldendő eredmények maximális száma. Alapértelmezett az összes eredmény.
+.UNINDENT
+.SH FTS_INDEX
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb fts_index [options] enable/disable/status/reindex
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Control the Full text search indexing process.
+.INDENT 0.0
+.TP
+.B enable
+Turns on FTS indexing for this library
+.TP
+.B disable
+Turns off FTS indexing for this library
+.TP
+.B status
+Shows the current indexing status
+.TP
+.B reindex
+Can be used to re\-index either particular books or
+the entire library. To re\-index particular books
+specify the book ids as additional arguments after the
+reindex command. If no book ids are specified the
+entire library is re\-indexed.
+.UNINDENT
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-indexing\-speed
+The speed of indexing. Use fast for fast indexing using all your computers resources and slow for less resource intensive indexing. Note that the speed is reset to slow after every invocation.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-wait\-for\-completion
+Wait till all books are indexed, showing indexing progress periodically
+.UNINDENT
+.SH FTS_SEARCH
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb fts_search [options] search expression
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Do a full text search on the entire library or a subset of it.
+.sp
+Amikor olyan argumentumokat ad át calibredb\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-do\-not\-match\-on\-related\-words
+Only match on exact words not related words. So correction will not match correcting.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-include\-snippets
+Include snippets of the text surrounding each match. Note that this makes searching much slower.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-indexing\-threshold
+How much of the library must be indexed before searching is allowed, as a percentage. Defaults to 90
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-match\-end\-marker
+The marker used to indicate the end of a matched word inside a snippet
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-match\-start\-marker
+The marker used to indicate the start of a matched word inside a snippet
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-output\-format
+The format to output the search results in. Either \fB\(dq\fPtext\fB\(dq\fP for plain text or \fB\(dq\fPjson\fB\(dq\fP for JSON output.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-restrict\-to
+Restrict the searched books, either using a search expression or ids. For example: ids:1,2,3 to restrict by ids or search:tag:foo to restrict to books having the tag foo.
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

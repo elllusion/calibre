@@ -1,0 +1,76 @@
+# vim:fileencoding=utf-8
+# License: GPL v3 Copyright: 2016, Kovid Goyal <kovid at kovidgoyal.net>
+from __python__ import bound_methods, hash_literals
+
+from elementmaker import E
+from gettext import gettext as _
+
+from book_list.item_list import build_list, create_item, create_side_action
+from dom import ensure_id, set_css
+from modals import question_dialog
+from widgets import create_button
+from read_book.toc import get_book_mark_title
+
+
+def goto_cfi(cfi, view):
+    view.goto_cfi(cfi, True)
+
+
+def remove_bookmark(annotations_manager, title, list_dom_node):
+    question_dialog(_('Are you sure?'), _('Do you want to permanently delete this bookmark?'), def (yes):
+        if yes:
+            annotations_manager.remove_bookmark(title)
+            list_dom_node.style.display = 'none'
+    )
+
+
+def edit_bookmark(annotations_manager, title, list_dom_node):
+    new_title = window.prompt(_('Enter new title for bookmark:'), title)
+    if new_title:
+        if annotations_manager.edit_bookmark(title, new_title):
+            console.log(list_dom_node)
+            list_dom_node.querySelector('.item-title').textContent = new_title
+
+
+def create_bookmarks_list(annotations_manager, onclick):
+    bookmarks = sorted(annotations_manager.all_bookmarks(), key=def(x): return x.title.toLowerCase();)
+    items = []
+    for bookmark in bookmarks:
+        if not bookmark.removed:
+            sa = create_side_action('trash', remove_bookmark.bind(None, annotations_manager, bookmark.title), _('Remove this bookmark'))
+            ea = create_side_action('edit', edit_bookmark.bind(None, annotations_manager, bookmark.title), _('Edit this bookmark'))
+            items.push(create_item(
+                bookmark.title, data=bookmark.pos,
+                action=onclick.bind(None, goto_cfi.bind(None, bookmark.pos)),
+                side_actions=[sa, ea]
+            ))
+    c = E.div(style='margin-top: 1ex')
+    build_list(c, items)
+    return c
+
+
+def create_new_bookmark(annotations_manager, data):
+    base_default_title = get_book_mark_title() or _('Bookmark')
+    title = window.prompt(_('Enter title for bookmark:'), data.selected_text or annotations_manager.default_bookmark_title(base_default_title))
+    if not title:
+        return False
+    cfi = data.cfi
+    if data.selection_bounds?.start:
+        cfi = data.selection_bounds.start
+    annotations_manager.add_bookmark(title, cfi)
+    return True
+
+
+def new_bookmark(container_id, annotations_manager, data, onclick, ev):
+    if create_new_bookmark(annotations_manager, data):
+        onclick(def(): pass;)
+
+
+def create_bookmarks_panel(annotations_manager, data, book, container, onclick):
+    set_css(container, display='flex', flex_direction='column')
+    container.appendChild(E.div(style='padding: 1rem'))
+    container = container.lastChild
+    container_id = ensure_id(container)
+    button = create_button(_('New bookmark'), 'plus', new_bookmark.bind(None, container_id, annotations_manager, data, onclick))
+    container.appendChild(E.div(button))
+    container.appendChild(E.div(create_bookmarks_list(annotations_manager, onclick)))

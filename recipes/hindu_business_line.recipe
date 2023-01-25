@@ -1,0 +1,88 @@
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+class BusinessLine(BasicNewsRecipe):
+    title = 'The Hindu BusinessLine'
+    __author__ = 'unkn0wn'
+    description = (
+        'The Hindu BusinessLine is known for its credibility, accuracy, in-depth analysis of markets and sober coverage'
+        ' of business news. BusinessLine reduces the daily grind of business to relevant, readable, byte-sized stories.'
+        ' The newspaper is extensively followed by the decision makers and change leaders from the world of business.'
+    )
+    no_stylesheets = True
+    use_embedded_content = False
+    oldest_article = 1.15  # days
+    max_articles_per_feed = 50
+    encoding = 'utf-8'
+    language = 'en_IN'
+    remove_attributes = ['height', 'width', 'padding-bottom']
+    masthead_url = 'https://www.thehindubusinessline.com/theme/images/bl-online/bllogo.png'
+    ignore_duplicate_articles = {'title', 'url'}
+    remove_empty_feeds = True
+
+    def get_cover_url(self):
+        soup = self.index_to_soup(
+            'https://www.magzter.com/IN/THG-publishing-pvt-ltd/The-Hindu-Business-Line/Newspaper/'
+        )
+        for citem in soup.findAll(
+            'meta', content=lambda s: s and s.endswith('view/3.jpg')
+        ):
+            return citem['content']
+
+    keep_only_tags = [
+        classes(
+            'tp-title-inf bi-line leadtext lead-img-caption slide-moadal img-container'
+        ),
+        dict(
+            name='div', attrs={'id': lambda x: x and x.startswith('content-body-')}
+        )
+    ]
+
+    remove_tags = [
+        classes(
+            'swiper-button-prev left-arrow swiper-button-next right-arrow close cursor tagsBtm share-topic comment-rules vuukle-div paywallbox '
+        )
+    ]
+
+    feeds = [
+        (
+            'Markets',
+            'https://www.thehindubusinessline.com/markets/feeder/default.rss'
+        ),
+        (
+            'Companies',
+            'https://www.thehindubusinessline.com/companies/feeder/default.rss'
+        ),
+        (
+            'Opinion',
+            'https://www.thehindubusinessline.com/opinion/feeder/default.rss'
+        ),
+        (
+            'Economy',
+            'https://www.thehindubusinessline.com/economy/feeder/default.rss'
+        ),
+        (
+            'Portfolio Premium',
+            'https://www.thehindubusinessline.com/portfolio/feeder/default.rss'
+        ),
+        (
+            'Info-Tech',
+            'https://www.thehindubusinessline.com/info-tech/feeder/default.rss'
+        ),
+        (
+            'Data-Stories',
+            'https://www.thehindubusinessline.com/data-stories/feeder/default.rss'
+        ),
+        (
+            'Money & Banking',
+            'https://www.thehindubusinessline.com/money-and-banking/feeder/default.rss'
+        ),
+        ('News', 'https://www.thehindubusinessline.com/news/feeder/default.rss'),
+    ]
+
+    def preprocess_html(self, soup):
+        for image in soup.findAll('source', attrs={'srcset': True}):
+            image['src'] = image['srcset']
+        for img in soup.findAll('img', attrs={'data-src-template': True}):
+            img['src'] = img['data-src-template']
+        return soup

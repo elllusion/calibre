@@ -1,0 +1,157 @@
+#!/usr/bin/env python
+# vim:fileencoding=utf-8
+# License: GPLv3 Copyright: 2016, Kovid Goyal <kovid at kovidgoyal.net>
+from __future__ import absolute_import, division, print_function, unicode_literals
+from collections import OrderedDict
+
+from calibre import browser
+from calibre.ebooks.BeautifulSoup import Tag
+from calibre.web.feeds.news import BasicNewsRecipe, classes, prefixed_classes
+
+
+def absurl(x):
+    if x.startswith('/') and not x.startswith('//'):
+        x = 'https://www.newyorker.com' + x
+    return x
+
+
+def new_tag(soup, name, attrs=()):
+    impl = getattr(soup, 'new_tag', None)
+    if impl is not None:
+        return impl(name, attrs=dict(attrs))
+    return Tag(soup, name, attrs=attrs or None)
+
+
+class NewYorker(BasicNewsRecipe):
+
+    title = "The New Yorker Magazine"
+    description = "Articles of the week's New Yorker magazine"
+
+    url_list = []
+    language = 'en'
+    __author__ = 'Kovid Goyal'
+    no_stylesheets = True
+    timefmt = ' [%b %d]'
+    encoding = 'utf-8'
+    extra_css = '''
+        .byline { font-size:smaller; font-weight: bold;}
+        h3 { margin-bottom: 6px; }
+        .caption { font-size: smaller; font-style: italic; font-weight: normal; }
+    '''
+
+    keep_only_tags = [
+        prefixed_classes(
+            'SplitScreenContentHeaderHed- SplitScreenContentHeaderDek- SplitScreenContentHeaderByline-'
+            ' SplitScreenContentHeaderLeadWrapper-'
+        ),
+        classes(
+            'split-screen-content-header__dek split-screen-content-header__hed'
+            ' content-header__dek content-header__hed content-header__publish-date content-header__lede-block'
+            ' content-header__rubric--issue-date content-header__lead-asset'
+            ' split-screen-content-header__publish-date split-screen-content-header__lede-block'
+            ' article__body bylines featured-image byline-and-date inset-mobile-crop-image hero-image-caption'
+        ),
+    ]
+    remove_tags = [
+        classes(
+            'social-icons'
+        ),
+        prefixed_classes('ConsentBannerWrapper- ResponsiveCartoonCTA-'),
+        dict(childtypes='iframe'),
+    ]
+    remove_attributes = ['style']
+
+    def preprocess_html(self, soup):
+        for noscript in soup.findAll('noscript'):
+            noscript.name = 'div'
+        return soup
+
+    def parse_index(self):
+
+        # Get cover
+
+        cover_soup = self.index_to_soup('https://www.newyorker.com/archive')
+        cover_img = cover_soup.find(
+            attrs={'class': lambda x: x and 'MagazineSection__cover___' in x})
+        if cover_img is not None:
+            cover_img = cover_img.find('img')
+            if cover_img is not None:
+                self.cover_url = cover_img.get('src')
+                try:
+                    # the src original resolution w_280 was too low, replace w_280 with w_560
+                    cover_url_width_index = self.cover_url.find("w_")
+                    old_width = self.cover_url[cover_url_width_index:cover_url_width_index+5]
+                    self.cover_url = self.cover_url.replace(old_width, "w_560")
+                except Exception:
+                    self.log('Failed enlarging cover img, using the original one')
+                self.log('Found cover:', self.cover_url)
+
+        # Get content
+
+        soup = self.index_to_soup(
+            'https://www.newyorker.com/magazine?intcid=magazine')
+        stories = OrderedDict()  # So we can list sections in order
+
+        # Iterate sections of content
+
+        for section_soup in soup.findAll(
+            attrs={'class': lambda x: x and 'MagazinePageSection__section___21cc7' in x}):
+            section = section_soup.find('h2').text
+            self.log("Found section:", section)
+
+            # Iterate stories in section
+
+            is_mail_section = (section == "Mail")
+
+            if is_mail_section:
+                cname = "Link__link___"
+            else:
+                cname = "River__riverItemContent___"
+
+            for story in section_soup.findAll(
+                attrs={'class': lambda x: x and cname in x}):
+
+                title = ""
+                url = ""
+                desc = ""
+
+                if is_mail_section:
+                    title = story.text
+                    url = absurl(story['href'])
+                else:
+                    h4 = story.find('h4')
+                    title = self.tag_to_string(h4)
+                    a = story.find('h4').parent
+                    url = absurl(a['href'])
+                    # Get description
+                    body = story.find(attrs={'class': 'River__dek___CayIg'})
+                    if body is not None:
+                        desc = body.contents[0]
+
+                self.log('Found article:', title)
+                self.log('\t' + url)
+                self.log('\t' + desc)
+                self.log('')
+
+                if section not in stories:
+                    stories[section] = []
+                stories[section].append({
+                    'title': title,
+                    'url': url,
+                    'description': desc})
+
+        return [(k, stories[k]) for k, v in stories.items()]
+
+    # The New Yorker changes the content it delivers based on cookies, so the
+    # following ensures that we send no cookies
+    def get_browser(self, *args, **kwargs):
+        return self
+
+    def clone_browser(self, *args, **kwargs):
+        return self.get_browser()
+
+    def open_novisit(self, *args, **kwargs):
+        br = browser()
+        return br.open_novisit(*args, **kwargs)
+
+    open = open_novisit

@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+from __future__ import with_statement
+__license__ = 'GPL 3'
+__copyright__ = 'zotzo'
+__docformat__ = 'restructuredtext en'
+"""
+http://fifthdown.blogs.nytimes.com/
+http://offthedribble.blogs.nytimes.com/
+http://thequad.blogs.nytimes.com/
+http://slapshot.blogs.nytimes.com/
+http://goal.blogs.nytimes.com/
+http://bats.blogs.nytimes.com/
+http://straightsets.blogs.nytimes.com/
+http://formulaone.blogs.nytimes.com/
+http://onpar.blogs.nytimes.com/
+"""
+
+from calibre.web.feeds.news import BasicNewsRecipe
+
+
+class NYTimesSports(BasicNewsRecipe):
+    title = 'New York Times Sports Beat'
+    language = 'en'
+    __author__ = 'rylsfan'
+    description = 'Indepth sports from the New York Times'
+    publisher = 'The New York Times'
+    category = 'Sports'
+    oldest_article = 3
+    max_articles_per_feed = 25
+    use_embedded_content = False
+    no_stylesheets = True
+    language = 'en'
+    delay = 1
+
+    feeds = [
+        (u'The Fifth Down', u'https://fifthdown.blogs.nytimes.com/feed/'),
+        (u'The Quad', u'https://thequad.blogs.nytimes.com/feed/'),
+        (u'Slap Shot', u'https://slapshot.blogs.nytimes.com/feed/'),
+        (u'Goal', u'https://goal.blogs.nytimes.com/feed/'),
+        (u'Bats', u'https://bats.blogs.nytimes.com/feed/'),
+        (u'Straight Sets', u'https://straightsets.blogs.nytimes.com/feed/'),
+        (u'Formula One', u'https://formulaone.blogs.nytimes.com/feed/'),
+        (u'On Par', u'https://onpar.blogs.nytimes.com/feed/'),
+    ]
+
+    def preprocess_raw_html(self, raw_html, url):
+        if not hasattr(self, 'nyt_parser'):
+            from calibre.live import load_module
+            m = load_module('calibre.web.site_parsers.nytimes')
+            self.nyt_parser = m
+        html = self.nyt_parser.extract_html(self.index_to_soup(raw_html))
+        return html

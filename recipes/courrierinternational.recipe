@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# vim:fileencoding=utf-8
+
+__license__ = 'GPL v3'
+__copyright__ = '2009, Mathieu Godlewski <mathieu at godlewski.fr>\
+2015, Rémi Vanicat <vanicat at debian.org'
+'''
+Courrier International
+'''
+
+import re
+from calibre.web.feeds.news import BasicNewsRecipe
+
+
+class CourrierInternational(BasicNewsRecipe):
+    title = 'Courrier International'
+    __author__ = 'Mathieu Godlewski <mathieu at godlewski.fr>'
+    description = 'Global news in french from international newspapers'
+    oldest_article = 7
+    language = 'fr'
+
+    max_articles_per_feed = 50
+    no_stylesheets = True
+
+    html2lrf_options = ['--base-font-size', '10']
+
+    keep_only_tags = [
+        dict(name='div', attrs={'class': 'article-content'}),
+    ]
+
+    remove_tags = [
+        dict(name='aside', attrs={'class': re.compile(
+            'article-sitesocial|article-ad|article-tertiary|view-ci-service-article')}),
+        dict(name='button', attrs={'id': re.compile(
+            'action-zen-off-(top|bottom)')}),
+    ]
+
+    needs_subscription = "optional"
+    login_url = 'http://www.courrierinternational.com/login'
+
+    def get_browser(self):
+        def is_form_login(form):
+            return "id" in form.attrs and form.attrs['id'] == "user-login-form"
+        br = BasicNewsRecipe.get_browser(self)
+        if self.username:
+            br.open(self.login_url)
+            br.select_form(predicate=is_form_login)
+            br['name'] = self.username
+            br['pass'] = self.password
+            br.submit()
+        return br
+
+    def preprocess_html(self, soup):
+        for link in soup.findAll("a", href=re.compile('^/')):
+            link["href"] = 'http://www.courrierinternational.com' + link["href"]
+        return soup
+
+    feeds = [
+        # Some articles requiring subscription fails on download.
+        ('Tous', 'http://www.courrierinternational.com/feed/all/rss.xml'),
+        ('France', 'https://www.courrierinternational.com/feed/category/6260/rss.xml'),
+        ('Europe', 'https://www.courrierinternational.com/feed/category/6261/rss.xml'),
+        ('Ameriques', 'https://www.courrierinternational.com/feed/category/6262/rss.xml'),
+        ('Asie', 'https://www.courrierinternational.com/feed/category/6263/rss.xml'),
+        ('Afrique', 'https://www.courrierinternational.com/feed/category/6264/rss.xml'),
+        ('Moyen-Orient', 'https://www.courrierinternational.com/feed/category/6265/rss.xml'),
+        ('Expat', 'https://www.courrierinternational.com/feed/category/6994/rss.xml'),
+        ('Business', 'https://www.courrierinternational.com/feed/category/6991/rss.xml'),
+        ('Culture', 'https://www.courrierinternational.com/feed/category/6270/rss.xml'),
+        ('Economie', 'https://www.courrierinternational.com/feed/category/6266/rss.xml'),
+        ('Écrans', 'https://www.courrierinternational.com/feed/category/7342/rss.xml'),
+        ('Éducation', 'https://www.courrierinternational.com/feed/category/6997/rss.xml'),
+        ('Environnement', 'https://www.courrierinternational.com/feed/category/6267/rss.xml'),
+        ('Infographie', 'https://www.courrierinternational.com/feed/category/6281/rss.xml'),
+        ('Lifestyle', 'https://www.courrierinternational.com/feed/category/7426/rss.xml'),
+        ('Planète buzz', 'https://www.courrierinternational.com/feed/category/6680/rss.xml'),
+        ('Politique', 'https://www.courrierinternational.com/feed/category/6681/rss.xml'),
+        ('Santé', 'https://www.courrierinternational.com/feed/category/6682/rss.xml'),
+        ('Sport', 'https://www.courrierinternational.com/feed/category/6273/rss.xml'),
+        ('Tendances', 'https://www.courrierinternational.com/feed/category/6282/rss.xml'),
+        ('Réveil', 'https://www.courrierinternational.com/feed/category/8224/rss.xml'),
+        ('Enquêtes', 'https://www.courrierinternational.com/feed/category/6678/rss.xml'),
+        ('Histoire', 'https://www.courrierinternational.com/feed/category/6679/rss.xml'),
+        ('Sciences & Techno', 'https://www.courrierinternational.com/feed/category/6268/rss.xml'),
+        ('Voyage', 'https://www.courrierinternational.com/feed/category/6271/rss.xml'),
+    ]

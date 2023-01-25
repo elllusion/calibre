@@ -1,0 +1,110 @@
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+from calibre import browser
+
+
+def absurl(url):
+    if url.startswith('/'):
+        url =  'https://www.spectator.co.uk' + url
+    return url
+
+
+class spectator(BasicNewsRecipe):
+    title = 'Spectator Magazine'
+    __author__ = 'unkn0wn'
+    description = 'The Spectator was established in 1828, and is the best-written and most influential weekly in the English language.'
+    language = 'en'
+    no_stylesheets = True
+    remove_attributes = ['height', 'width', 'style']
+    ignore_duplicate_articles = {'url'}
+    masthead_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/The_Spectator_logo.svg/320px-The_Spectator_logo.svg.png'
+    encoding = 'utf-8'
+    remove_empty_feeds = True
+    resolve_internal_links = True
+
+    extra_css = '''
+        .author-bio {font-size:small;}
+        #fig-c {text-align:center; font-size:small;}
+        blockquote, em {color:#404040;}
+    '''
+
+    keep_only_tags = [
+        classes(
+            'entry-header__heading entry-header__thumbnail entry-content__wrapper author-bio'),
+        ]
+
+    remove_tags = [
+        classes(
+            'entry-header__author entry-header__meta entry-meta insert--most-popular '
+            'subscribe-ribbon subscription-banner paywall__card'
+        )
+    ]
+
+    def preprocess_html(self, soup):
+        for fc in soup.findAll('figcaption'):
+            fc['id'] = 'fig-c'
+        return soup
+
+    def parse_index(self):
+        soup = self.index_to_soup('https://www.spectator.co.uk/magazine')
+        self.cover_url = soup.find(**classes(
+            'magazine-header__container')).img['src'].split('?')[0]
+        issue = self.tag_to_string(soup.find(**classes(
+            'magazine-header__title'))).strip()
+        self.timefmt = ' (' + issue + ') [' + self.tag_to_string(soup.find(**classes(
+            'magazine-header__date'))).strip() + ']'
+        self.log('Downloading Issue: ', self.timefmt)
+        nav_div = soup.find('ul', **classes('archive-entry__nav-list'))
+        section_list = []
+
+        for x in nav_div.findAll(['a']):
+            section_list.append((
+                self.tag_to_string(x).strip(), absurl(x['href'])))
+        feeds = []
+
+        # For each section title, fetch the article urls
+        for section in section_list:
+            section_title = section[0]
+            section_url = section[1]
+            self.log(section_title, section_url)
+            soup = self.index_to_soup(section_url)
+            articles = self.articles_from_soup(soup)
+            if articles:
+                feeds.append((section_title, articles))
+        return feeds
+
+    def articles_from_soup(self, soup):
+        ans = []
+        for div in soup.findAll('div', **classes(
+            'mosaic__tile mosaic__tile--lead-up'
+        )):
+            a = div.find('a', href=True, attrs={'class':'article__title-link'})
+            url = absurl(a['href'])
+            title = self.tag_to_string(a).strip()
+            teaser = div.find('p', **classes('article__excerpt-text'))
+            desc = ''
+            if teaser:
+                desc = self.tag_to_string(teaser).strip()
+            obj = div.find('a', **classes('article__author article__author--link'))
+            if obj:
+                desc = self.tag_to_string(obj).strip() + ' | ' + desc
+            sec = div.findParent('div').find('a', attrs={'class': 'magazine-issue__entry-link'})
+            if sec:
+                desc = self.tag_to_string(sec).strip() + ' | ' + desc
+
+            self.log('\t', title, '\n\t', desc, '\n\t\t', url)
+            ans.append({'title': title, 'description':desc, 'url': url})
+        return ans
+
+    # Spectator changes the content it delivers based on cookies, so the
+    # following ensures that we send no cookies
+    def get_browser(self, *args, **kwargs):
+        return self
+
+    def clone_browser(self, *args, **kwargs):
+        return self.get_browser()
+
+    def open_novisit(self, *args, **kwargs):
+        br = browser()
+        return br.open_novisit(*args, **kwargs)
+
+    open = open_novisit

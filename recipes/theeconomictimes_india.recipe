@@ -1,0 +1,60 @@
+__license__ = 'GPL v3'
+__copyright__ = '2008-2014, Karthik <hashkendistro@gmail.com>, Darko Miletic <darko.miletic at gmail.com>'
+'''
+economictimes.indiatimes.com
+'''
+
+
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+class TheEconomicTimes(BasicNewsRecipe):
+    title = 'The Economic Times India'
+    __author__ = 'Karthik, Darko Miletic'
+    description = 'Financial news from India'
+    publisher = 'economictimes.indiatimes.com'
+    category = 'news, finances, politics, India'
+    oldest_article = 1
+    max_articles_per_feed = 50
+    no_stylesheets = True
+    use_embedded_content = False
+    simultaneous_downloads = 1
+    encoding = 'utf-8'
+    language = 'en_IN'
+    remove_attributes = ['style', 'height', 'width']
+    publication_type = 'newspaper'
+    masthead_url = 'http://economictimes.indiatimes.com/photo/2676871.cms'
+    ignore_duplicate_articles = {'title', 'url'}
+    extra_css = '.summary {font-weight:normal; font-size:normal; }'
+
+    keep_only_tags = [
+        dict(name='h1'),
+        classes('artByline artSyn artImg artText publisher publish_on slideshowPackage'),
+    ]
+    remove_tags = [
+        classes(
+            'story_title storyCollection shareBar sr_widget_free jsSrWidgetFree srwidgetfree_3'
+            ' sr_paid jsSrWidgetPaid ar_wrp arwd_ld_chk adBox custom_ad mgid orn_free_r bold'
+        ),
+    ]
+
+    feeds = [(u'Top Stories', u'http://economictimes.indiatimes.com/rssfeedstopstories.cms'),
+             (u'News', u'http://economictimes.indiatimes.com/News/rssfeeds/1715249553.cms'),
+             (u'Market', u'http://economictimes.indiatimes.com/Markets/markets/rssfeeds/1977021501.cms'),
+             (u'Personal Finance',
+              u'http://economictimes.indiatimes.com/rssfeeds/837555174.cms'),
+             (u'Infotech', u'http://economictimes.indiatimes.com/Infotech/rssfeeds/13357270.cms'),
+             (u'Job', u'http://economictimes.indiatimes.com/Infotech/rssfeeds/107115.cms'),
+             (u'Opinion', u'http://economictimes.indiatimes.com/opinion/opinionshome/rssfeeds/897228639.cms'),
+             (u'Features', u'http://economictimes.indiatimes.com/Features/etfeatures/rssfeeds/1466318837.cms'),
+             (u'Environment',
+              u'http://economictimes.indiatimes.com/rssfeeds/2647163.cms'),
+             (u'NRI', u'http://economictimes.indiatimes.com/rssfeeds/7771250.cms')
+             ]
+
+    def preprocess_html(self, soup):
+        for image in soup.findAll('img', attrs={'src': True}):
+            image['src'] = image['src'].replace("width-300", "width-640")
+        for img in soup.findAll('img', attrs={'data-original': True}):
+            img['src'] = img['data-original'].replace('photo', 'thumb').replace('quality-100', 'quality-100,width-600,resizemode-4')
+        return soup

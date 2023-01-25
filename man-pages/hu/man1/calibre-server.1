@@ -1,0 +1,270 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CALIBRE-SERVER" "1" "január 06, 2023" "6.11.0" "calibre"
+.SH NAME
+calibre-server \- calibre-server
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibre\-server [options] [path to library folder...]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Elindítja el a Calibre tartalomkiszolgálót. A Calibre tartalomszerver az interneten keresztül
+elérhetővé teszi a Calibre könyvtárait. Megadhatja a könyvtár mappáinak elérési útját \fBcalibre\-server\fP\&. argumentumaként.
+Ha nem ad meg egyetlen elérési utat sem, akkor a program minden olyan könyvtárat használ, amelyről a fő Calibre program tud.
+.sp
+Amikor olyan argumentumokat ad át \fBcalibre\-server\fP\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.SH [BEÁLLÍTÁSOK]
+.INDENT 0.0
+.TP
+.B \-\-access\-log
+A hozzáférési naplófájl elérési útja. Ez a napló információkat tartalmaz a kiszolgálóhoz csatlakozó és kéréseket benyújtó ügyfelekről. Alapértelmezés szerint nem történik hozzáférési naplózás.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ajax\-timeout
+A szerver válaszának várakozási ideje (másodpercben) a lekérdezések során.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-auth\-mode
+A használt hitelesítés típusának kiválasztása.      Állítsa be a szerver által használt HTTP hitelesítési módot. Állítsa \fB\(dq\fPbasic\fB\(dq\fP értékre, ha ezt a szervert SSL proxy mögé helyezi. Ellenkező esetben hagyja \fB\(dq\fPauto\fB\(dq\fP\-módban, amely az \fB\(dq\fPbasic\fB\(dq\fP módot fogja használni, ha az SSL be van állítva, különben a \fB\(dq\fPdigest\fB\(dq\fP módot fogja használni.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-auto\-reload
+A kiszolgáló automatikus újratöltése, ha a forráskód megváltozik. Hasznos a fejlesztéshez. Meg kell adni egy kis értéket is a leállítási időtúllépéshez.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ban\-after
+A kitiltáshoz szükséges bejelentkezési hibák száma.         Azon bejelentkezési hibák száma, amelyek után egy IP\-cím letiltásra kerül
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ban\-for
+IP\-címek letiltása, amelyeknél ismétlődő bejelentkezési hibák jelentkeztek.         Ideiglenesen letiltja a hozzáférést az olyan IP\-címekhez, amelyek ismétlődő bejelentkezési hibával rendelkeznek a megadott számú perceken keresztül. Hasznos a jelszavak kitalálására irányuló kísérletek megelőzésére. Ha nullára van állítva, nem történik kitiltás.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-book\-list\-mode
+Az alapértelmezett könyvlista mód kiválasztása.     Állítsa be az új felhasználóknál használt alapértelmezett könyvlista módot. Az egyes felhasználók felülírhatják az alapértelmezett beállításokat saját beállításaikban. Az alapértelmezés a fedőrács használata.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-compress\-min\-size
+Minimális méret, amelyhez a válaszok adattömörítést használnak (bájtban).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-custom\-list\-template
+Az egyéni könyvlista módhoz tartozó sablont tartalmazó JSON\-fájl elérési útja. A legegyszerűbb módja egy ilyen sablonfájl létrehozásának, ha a Beállítások\-> Megosztás a neten keresztül\-> Könyvlistasablon Calibre\-ben, létrehozzuk a sablont és exportáljuk.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-daemonize
+Folyamat futtatása a háttérben \fB\(dq\fPdaemon\fB\(dq\fP\-ként (csak Linuxon).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-displayed\-fields
+A felhasználó által definiált mezők megjelenítésének korlátozása.   A tartalomszerver által az /opds és /mobile nézetben megjelenített, felhasználó által definiált metaadatmezők vesszővel tagolt listája. Ha megadja ezt a lehetőséget, a listában nem szereplő mezők nem jelennek meg. Például: my_rating,my_tags
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-allow\-socket\-preallocation, \-\-disable\-allow\-socket\-preallocation
+Aljzatok előzetes kiosztása, például systemd aljzat aktiválással. Alapértelmezésben ez a lehetőség engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-auth, \-\-disable\-auth
+Jelszó alapú hitelesítés a szerver eléréséhez.      Általában a szerver korlátlan, így bárki hozzáférhet. Ezzel az opcióval korlátozhatja a hozzáférést előre meghatározott felhasználókra. Alapértelmezésben ez a lehetőség nem engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-fallback\-to\-detected\-interface, \-\-disable\-fallback\-to\-detected\-interface
+Visszatérés az automatikusan észlelt interfészhez.  Ha a szerver valamilyen oknál fogva nem tud kapcsolódni a listen_on opcióban megadott interfészhez, akkor megpróbál egy olyan interfészt észlelni, amelyik a külvilághoz csatlakozik, és ehhez kötődik. Alapértelmezésben ez a lehetőség engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-local\-write, \-\-disable\-local\-write
+Engedélyezze a nem hitelesített helyi kapcsolatoknak a módosításokat.       Normális esetben, ha nem kapcsolja be a hitelesítést, a szerver csak olvasható módban működik, így nem teszi lehetővé a névtelen felhasználók számára, hogy módosítsák a Calibre könyvtárakat. Ezzel az opcióval bárki, aki ugyanarról a számítógépről csatlakozik, amelyen a kiszolgáló fut, változtatásokat hajthat végre. Ez akkor hasznos, ha hitelesítés nélkül szeretné futtatni a kiszolgálót, de továbbra is használja a calibredb\-t a Calibre könyvtárak módosításához. Vegye figyelembe, hogy ennek az opciónak a bekapcsolása azt jelenti, hogy a számítógépen futó bármely program módosíthatja a Calibre könyvtárakat. Alapértelmezésben ez a lehetőség nem engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-log\-not\-found, \-\-disable\-log\-not\-found
+HTTP 404 (nem található) kérések naplózása.         Általában a kiszolgáló naplózza a nem található erőforrások összes HTTP\-kérését. Ez sok naplólevélszemetet generálhat, ha a szerverét robotok célozzák meg. Ezzel a lehetőséggel kapcsolhatja ki. Alapértelmezésben ez a lehetőség engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-use\-bonjour, \-\-disable\-use\-bonjour
+OPDS\-hírcsatornák hirdetése a BonJour segítségével.         Hirdesse az OPDS hírcsatornákat a BonJour szolgáltatáson keresztül, hogy az OPDS alapú olvasóalkalmazások automatikusan felismerjék és csatlakozzanak a szerverhez. Alapértelmezésben ez a lehetőség engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-use\-sendfile, \-\-disable\-use\-sendfile
+Nulla másolás nélküli fájlátvitel a nagyobb teljesítmény érdekében.         Ez nulla\-másolatot használ a kernelen belüli átvitelhez, amikor fájlokat küld a hálózaton, növelve a teljesítményt. Ez azonban hibás fájlátvitelt okozhat egyes hibás fájlrendszereken. Ha sérült fájlátvitelt tapasztal, kapcsolja ki. Alapértelmezésben ez a lehetőség engedélyezett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+súgó megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignored\-fields
+A felhasználó által definiált metaadatmezők figyelmen kívül hagyása.        Vesszővel tagolt lista a felhasználó által definiált metaadatmezőkről, amelyeket a tartalomkiszolgáló nem jelenít meg az /opds és /mobile nézetben. Például: my_rating,my_tags
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-listen\-on
+Az a felület, amelyen a kapcsolatok figyelhetők.    Alapértelmezés az összes elérhető IPv4 interfészen történő figyelés. Módosíthatja ezt például „127.0.0.1”\-re, ha csak a helyi gépről érkező kapcsolatokat figyeli, vagy „::”\-re, ha az összes bejövő IPv6\- és IPv4\-kapcsolatot figyeli.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-log
+A szervernapló naplófájljának elérési útja. Ez a napló szerverinformációkat és hibákat tartalmaz, nem hozzáférési naplókat. Alapértelmezés szerint az \fB\(dq\fPstdout\fB\(dq\fP\-ba van írva.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-manage\-users
+A kiszolgálóhoz csatlakozásra jogosult felhasználók adatbázisának kezelése. Használhatja automatizált módban egy \fB\-\-\fP hozzáadásával. A részletekért lásd: calibre\-server \fI\%\-\-manage\-users\fP \fB\-\-\fP help. Lásd még \fI\%\-\-userdb\fP opciót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-header\-line\-size
+Egyetlen HTTP\-fejléc max. mérete (KB\-ban).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-job\-time
+A munkafolyamatok maximális ideje.  A dolgozó folyamatok futásának maximális időtartama (percekben). Állítsa nullára, ha nincs korlát.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-jobs
+A dolgozói folyamatok maximális száma.      A munkafolyamatok szükség szerint elindulnak, és olyan nagy munkákhoz használatosak, mint például a könyv megtekintésre való előkészítése, könyvek hozzáadása, konvertálás stb. Általában az ilyen folyamatok maximális száma a CPU\-magok számán alapul. Ezzel a beállítással szabályozhatja ezt.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-log\-size
+Naplófájl max. mérete (MB).         A szerver által generált naplófájlok maximális mérete. Amikor a napló nagyobb lesz ennél a méretnél, automatikusan elforgatja. Állítsa nullára a naplóforgatás letiltásához.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-opds\-items
+A könyvek maximális száma az OPDS\-hírcsatornákban.  A könyvek maximális száma, amelyet a szerver egyetlen OPDS adatgyűjtési hírfolyamban visszaküld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-opds\-ungrouped\-items
+A csoportosítatlan elemek maximális száma az OPDS\-hírcsatornákban.  Csoportosítsa az elemeket kategóriákba (például szerző/címkék) az első betű szerint, ha ennél több elem van. A letiltáshoz állítsa nullára.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-request\-body\-size
+A szerverre feltöltött fájlok megengedett max. mérete (MB\-ban).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-num\-per\-page
+Egy oldalon megjelenő könyvek száma.        Egy böngésző oldalon megjelenő könyvek darabszáma.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pidfile
+A folyamat PID\-jének beleírása a megadott fájlba
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-port
+Portszám, amelyen figyel a kiszolgáló.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-search\-the\-net\-urls
+A „Keresés az interneten” funkció URL\-címeit tartalmazó JSON\-fájl elérési útja. Egy ilyen fájl létrehozásának legegyszerűbb módja, ugrás a Beállítások\-> Megosztás a neten keresztül\-> Calibre keresés az interneten, és URL\-ek létrehozása majd azok exportálása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-shutdown\-timeout
+A tiszta leállásra való várakozás teljes időtartama másodpercben.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ssl\-certfile
+SSL\-tanúsítványfájl elérési útja.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ssl\-keyfile
+SSL privát kulcs fájl elérési útja.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timeout
+Idő (másodpercben), amely után a tétlen kapcsolat bezárul.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-trusted\-ips
+A módosítások végrehajtásához engedélyezze a nem hitelesített kapcsolatokat adott IP\-címekről.      Normális esetben, ha nem kapcsolja be a hitelesítést, a szerver csak olvasható módban működik, így nem teszi lehetővé a névtelen felhasználók számára, hogy módosítsák a Calibre  könyvtárakat. Ezzel az opcióval bárki, aki a megadott IP\-címekről csatlakozik, változtatásokat hajthat végre. A címek vagy a hálózati specifikációk vesszővel elválasztott listájának kell lennie. Ez akkor hasznos, ha hitelesítés nélkül szeretné futtatni a kiszolgálót, de továbbra is használja a calibredb\-t a Calibre könyvtárak módosításához. Vegye figyelembe, hogy ennek az opciónak a bekapcsolása azt jelenti, hogy bárki, aki a megadott IP\-címekről csatlakozik, módosíthatja a Calibre könyvtárait.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-url\-prefix
+Az összes URL elé írandó előtag.    Hasznos, ha ezt a kiszolgálót fordított proxy mögött szeretné futtatni. Például használja a /calibre\-t URL előtagként.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-userdb
+A hitelesítéshez használt felhasználói adatbázis elérési útja. Az adatbázis egy SQLite fájl. Létrehozásához használja a következőt: \fI\%\-\-manage\-users\fP\&. A felhasználók kezeléséről itt olvashat bővebben: \fI\%https://manual.calibre\-ebook.com/server.html#managing\-user\-accounts\-from\-the\-command\-line\-only\fP
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+program verziójának megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-worker\-count
+A kérések feldolgozásához használt munkaszálak száma.
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

@@ -1,0 +1,199 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CALIBRE-DEBUG" "1" "1월 06, 2023" "6.11.0" "calibre"
+.SH NAME
+calibre-debug \- calibre-debug
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibre\-debug [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Various command line interfaces useful for debugging calibre. With no options,
+this command starts an embedded Python interpreter. You can also run the main
+calibre GUI, the calibre E\-book viewer and the calibre editor in debug mode.
+.sp
+It also contains interfaces to various bits of calibre that do not have
+dedicated command line tools, such as font subsetting, the E\-book diff tool and so
+on.
+.sp
+You can also use \fBcalibre\-debug\fP to run standalone scripts. To do that use it like this:
+.INDENT 0.0
+.INDENT 3.5
+\fBcalibre\-debug\fP \-e myscript.py \fB\-\-\fP \fB\-\-option1\fP \fB\-\-option2\fP file1 file2 ...
+.UNINDENT
+.UNINDENT
+.sp
+Everything after the \fB\-\-\fP is passed to the script. You can also use \fBcalibre\-debug\fP
+as a shebang in scripts, like this:
+.INDENT 0.0
+.INDENT 3.5
+#!/usr/bin/env \-S \fBcalibre\-debug\fP \-e \fB\-\-\fP \-\-
+.UNINDENT
+.UNINDENT
+.sp
+Whenever you pass arguments to \fBcalibre\-debug\fP that have spaces in them, enclose the arguments in quotation marks. For example: \(dq/some path/with spaces\(dq
+.SH [옵션]
+.INDENT 0.0
+.TP
+.B \-\-add\-simple\-plugin
+플러그인 코드가 담긴 py 파일에 대한 경로를 지정해서, 간단한 플러그인(즉, .py 파일로만 구성된 플러그인)을 추가합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-command, \-c
+Python 코드를 실행합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-debug\-device\-driver, \-d
+장치 감지 디버그
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-default\-programs
+캘리버를 Windows 기본 프로그램에 등록/제거 합니다. \fI\%\-\-default\-programs\fP = \fB(register|unregister)\fP
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-diff
+캘리버의 diff 도구를 실행합니다. 예: calibre\-debug \fI\%\-\-diff\fP 파일1 파일2
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-edit\-book
+캘리버 책편집기 도구를 디버그 모드로 띄웁니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exec\-file, \-e
+파일의 Python 코드를 실행합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-explode\-book, \-x
+책을 지정된 폴더로 분해합니다. 사용법: \-x file.epub output_dir 표준 HTML 편집 도구를 사용하여 편집할 수 있는 HTML 파일 및 책 정보 모음으로 책을 내보냅니다. EPUB, AZW3, HTMLZ 및 DOCX 파일과 함께 작동합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-export\-all\-calibre\-data
+Export all calibre data (books/settings/plugins). Normally, you will be asked for the export folder and the libraries to export. You can also specify them as command line arguments to skip the questions. Use absolute paths for the export folder and libraries. The special keyword \fB\(dq\fPall\fB\(dq\fP can be used to export all libraries. Examples:    calibre\-debug \fI\%\-\-export\-all\-calibre\-data\fP  # for interactive use   calibre\-debug \fI\%\-\-export\-all\-calibre\-data\fP /path/to/empty/export/folder /path/to/library/folder1 /path/to/library2   calibre\-debug \fI\%\-\-export\-all\-calibre\-data\fP /export/folder all  # export all known libraries
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-fix\-multiprocessing
+For internal use
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-gui, \-g
+디버깅이 활성화된 상태로 GUI를 실행합니다. 디버그 출력은 stdout과 stderr로 프린트됩니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-gui\-debug
+지정되 경로에 로그를 남기며, GUI를 디버그 콘솔과 함께 실행합니다. 내부 용도 한정으로, 디버그 모드로 GUI를 띄우려면 \-g 옵션을 사용하세요.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+이 도움말 메시지를 표시한 후 종료
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-implode\-book, \-i
+Implode a previously exploded book. Usage: \-i output_dir file.epub Imports the book from the files in output_dir which must have been created by a previous call to \fI\%\-\-explode\-book\fP\&. Be sure to specify the same file type as was used when exploding.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-import\-calibre\-data
+이전에 내보낸 캘리버 데이터 가져오기
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-inspect\-mobi, \-m
+지정된 경로의 MOBI 파일을 검사합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-paths
+캘리버 환경을 설정하는데 필요한 경로들을 출력합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-run\-plugin, \-r
+Run a plugin that provides a command line interface. For example: calibre\-debug \-r \fB\(dq\fPPlugin name\fB\(dq\fP \fB\-\-\fP file1 \fB\-\-option1\fP Everything after the \fB\-\-\fP will be passed to the plugin as arguments.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-run\-test, \-t
+Run the named test(s). Use the special value \fB\(dq\fPall\fB\(dq\fP to run all tests. If the test name starts with a period it is assumed to be a module name. If the test name starts with @ it is assumed to be a category name.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-run\-without\-debug
+Don\fB\(aq\fPt run with the DEBUG flag set
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-shutdown\-running\-calibre, \-s
+실행 중인 캘리버 인스턴스가 있다면 종료시킵니다. 만일 실행 중인 작업이 있다면 조용히 처리가 중단되니 조심해서 사용하도록 하십시오.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-subset\-font, \-f
+지정된 글꼴에서 실제 사용된 문자만 취합니다. Font subsetting 프로그램에 옵션을 전달하려면 이 옵션 다음에 \fB\-\-\fP 를 사용하세요.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-test\-build
+빌드 시 바이너리 모듈을 검사합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+프로그램의 버전을 표시한 후 종료합니다.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-viewer, \-w
+전자책 뷰어를 디버그 모드로 실행합니다.
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

@@ -1,0 +1,78 @@
+import json
+import re
+
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+class outlook(BasicNewsRecipe):
+    title = 'Outlook Business Magazine'
+    __author__ = 'unkn0wn'
+    description = (
+        'Outlook Business (Monthly) Magazine produces Business, Market, Startup and Leadership'
+        ' content that is differentiated to offer a deeper understanding of trends shaping India. Read to hone your leadership skills.'
+    )
+    language = 'en_IN'
+    use_embedded_content = False
+    no_stylesheets = True
+    remove_javascript = True
+    remove_attributes = ['height', 'width', 'style']
+    ignore_duplicate_articles = {'url'}
+    masthead_url = 'https://imgnew.outlookindia.com/uploadimage/library/free_files/jpg/logo_2022_04_30_092331.jpg'
+    extra_css = '.author{font-size:small;}'
+
+    def parse_index(self):
+        soup = self.index_to_soup('https://www.outlookbusiness.com/magazine/')
+        div = soup.find('div', attrs={'class': 'SplWapper'})
+        url = div.find('a', href=True)['href']
+        self.cover_url = div.find('img', srcset=True)['srcset']
+        self.timefmt = '[' + self.tag_to_string(div.find('h6')) + ']'
+        soup = self.index_to_soup('https://www.outlookbusiness.com' + url)
+        ans = []
+
+        for section in soup.findAll(**classes('category-banner-content')):
+            p = section.find(
+                'p',
+                attrs={'class': lambda x: x and x.startswith('styled__Content')}
+            )
+            desc = self.tag_to_string(p)
+            head = section.find(
+                'p',
+                attrs={'class': lambda x: x and x.startswith('styled__Heading')}
+            )
+            title = self.tag_to_string(head)
+            a = p.findParent('a', href=True)['href']
+            if a.startswith('/'):
+                url = 'https://www.outlookbusiness.com' + a
+            self.log('\t', title, '\n\t', desc, '\n\t\t', url)
+            ans.append({'title': title, 'description': desc, 'url': url})
+        return [('Articles', ans)]
+
+    def preprocess_raw_html(self, raw, *a):
+        m = re.search('id="__NEXT_DATA__" type="application/json">', raw)
+        raw = raw[m.start():]
+        raw = raw.split('>', 1)[1]
+        data = json.JSONDecoder().raw_decode(raw)[0]
+        data = data['props']['initialState']['dashboard']['ARTICLE_POST_DETAIL_API'][
+            'data']['article_data']
+        title = data['title']
+        body = data['description']
+        cat = desc = image = author = ''
+        if 'category_name' in data:
+            try:
+                cat = data['category_name']
+            except Exception:
+                cat = ''
+        if 'excerpt' in data:
+            desc = '<h4>' + data['excerpt'] + '</h4>'
+        if 'author' in data:
+            try:
+                author = data['author'][0]['name']
+            except Exception:
+                author = ''
+        if 'images' in data:
+            try:
+                image = '<p><img src="{}">'.format(data['images'][0]['image'])
+            except Exception:
+                image = ''
+        html = '<html><body>' + cat + '<h1>' + title + '</h1>' + desc + '<div class="author">' + author + '</div>' + image + body
+        return html

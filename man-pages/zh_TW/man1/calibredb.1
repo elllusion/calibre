@@ -1,0 +1,1065 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CALIBREDB" "1" "1月 06, 2023" "6.11.0" "calibre"
+.SH NAME
+calibredb \- calibredb
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb command [options] [arguments]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+\fBcalibredb\fP is the command line interface to the calibre database. It has
+several sub\-commands, documented below.
+.sp
+\fBcalibredb\fP can be used to manipulate either a calibre database
+specified by path or a calibre Content server running either on
+the local machine or over the internet. You can start a calibre
+Content server using either the \fBcalibre\-server\fP
+program or in the main calibre program click Connect/share  → 
+Start Content server\&. Since \fBcalibredb\fP can make changes to your
+calibre libraries, you must setup authentication on the server first. There
+are two ways to do that:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+If you plan to connect only to a server running on the same computer,
+you can simply use the \fB\-\-enable\-local\-write\fP option of the
+Content server, to allow any program, including calibredb, running on
+the local computer to make changes to your calibre data. When running
+the server from the main calibre program, this option is in
+Preferences → Sharing over the net → Advanced\&.
+.IP \(bu 2
+If you want to enable access over the internet, then you should setup
+user accounts on the server and use the \fI\%\-\-username\fP and \fI\%\-\-password\fP
+options to \fBcalibredb\fP to give it access. You can setup
+user authentication for \fBcalibre\-server\fP by using the \fB\-\-enable\-auth\fP
+option and using \fB\-\-manage\-users\fP to create the user accounts.
+If you are running the server from the main calibre program, use
+Preferences → Sharing over the net → Require username/password\&.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+To connect to a running Content server, pass the URL of the server to the
+\fI\%\-\-with\-library\fP option, see the documentation of that option for
+details and examples.
+.INDENT 0.0
+.IP \(bu 2
+\fI\%通用選項\fP
+.IP \(bu 2
+\fI\%list\fP
+.IP \(bu 2
+\fI\%add\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%正在從資料夾中加入\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%remove\fP
+.IP \(bu 2
+\fI\%add_format\fP
+.IP \(bu 2
+\fI\%remove_format\fP
+.IP \(bu 2
+\fI\%show_metadata\fP
+.IP \(bu 2
+\fI\%set_metadata\fP
+.IP \(bu 2
+\fI\%export\fP
+.IP \(bu 2
+\fI\%catalog\fP
+.INDENT 2.0
+.IP \(bu 2
+\fI\%EPUB選項\fP
+.UNINDENT
+.IP \(bu 2
+\fI\%saved_searches\fP
+.IP \(bu 2
+\fI\%add_custom_column\fP
+.IP \(bu 2
+\fI\%custom_columns\fP
+.IP \(bu 2
+\fI\%remove_custom_column\fP
+.IP \(bu 2
+\fI\%set_custom\fP
+.IP \(bu 2
+\fI\%restore_database\fP
+.IP \(bu 2
+\fI\%check_library\fP
+.IP \(bu 2
+\fI\%list_categories\fP
+.IP \(bu 2
+\fI\%backup_metadata\fP
+.IP \(bu 2
+\fI\%clone\fP
+.IP \(bu 2
+\fI\%embed_metadata\fP
+.IP \(bu 2
+\fI\%search\fP
+.IP \(bu 2
+\fI\%fts_index\fP
+.IP \(bu 2
+\fI\%fts_search\fP
+.UNINDENT
+.SH 通用選項
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+顯示說明訊息並退出
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-library\-path, \-\-with\-library
+calibre 書庫的路徑。預設是使用儲存在設定中的路徑。您還可以連接到 calibre 內容伺服器，以便在遠端書庫上執行操作。為此使用表單的 URL：\fI\%http://hostname:port/#library_id\fP 例如，\fI\%http://localhost:8080/#mylibrary\fP。library_id 是要在內容伺服器上連接的書庫的書庫 id。您可以使用特殊的 library_id 值來取得伺服器上可用書庫 id 的清單。有關如何透過內容伺服器設定存取的詳細資訊，請參閱https://manual.calibre\-ebook.com/generated/en/calibredb.html。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-password
+用來連線至 calibre 伺服器的密碼。要使用標準輸入中讀取密碼，請使用特殊值:<stdin>。如果要從檔案中讀取密碼，請使用:<f:/path/to/file>( 例如: <f: 檔案的完整路徑以及後置 >)。前方所寫的角括號是必須使用的，請記得在命令介面中使用跳脫字元或是引號。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timeout
+透過網路連接到 calibre 書庫時的逾時時間，以秒為單位。預設值為兩分鍾。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-username
+登入Calibre網路伺服器時所用之使用者名稱
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+顯示程式版本編號並退出
+.UNINDENT
+.SH LIST
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb list [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+列出 calibre 資料庫中可用書本。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-ascending
+以遞增次序排列結果
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-fields, \-f
+在列出資料庫中書籍時要顯示的欄位。應該是逗號分隔的欄位列表。 可用欄位： author_sort, authors, comments, cover, formats, identifiers, isbn, languages, last_modified, pubdate, publisher, rating, series, series_index, size, tags, template, timestamp, title, uuid 預設值：title,authors。特殊欄位「all」可用於選擇所有欄位。除了上述內建欄位之外，自訂欄位還等價於*field_name，例如，對於自訂欄位#rating，使用名稱：*rating
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-for\-machine
+產生適用於機器讀取用的JSON檔案，線寬及分隔符號將被忽略。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-limit
+結果顯示的最大數目。預設：全部
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-line\-width, \-w
+輸出中單一行的最大寬度。預設值為偵測螢幕大小。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-prefix
+所有檔案路徑的前綴。預設值為書庫資料夾的絕對路徑。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-search, \-s
+以搜尋的查詢來過濾結果。要了解搜尋的查詢格式，請參閱使用者手冊中的搜尋相關文件。預設值為不做任何過濾。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-separator
+用來分離欄位的字串。預設為空白。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sort\-by
+The field by which to sort the results. You can specify multiple fields by separating them with commas. Available fields: author_sort, authors, comments, cover, formats, identifiers, isbn, languages, last_modified, pubdate, publisher, rating, series, series_index, size, tags, template, timestamp, title, uuid Default: id
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template
+The template to run if \fB\(dq\fPtemplate\fB\(dq\fP is in the field list. Default: None
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template_file, \-t
+Path to a file containing the template to run if \fB\(dq\fPtemplate\fB\(dq\fP is in the field list. Default: None
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template_heading
+Heading for the template column. Default: template. This option is ignored if the option \fI\%\-\-for\-machine\fP is set
+.UNINDENT
+.SH ADD
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb add [選項] file1 file2 file3 ...
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+加入指定檔案為書籍到資料庫。您可以指定目錄，請檢視下面目錄相關選項。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-authors, \-a
+編輯已加入的書本作者
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-automerge, \-m
+如果找到具有相似標題和作者的圖書，請自動將傳入格式(檔案)合併到現有圖書記錄中。值「Ignore」表示丟棄重複的格式。值「overwrite」表示書庫中的重複格式將被新加入的檔案覆蓋。值「new_record」表示將重複的格式放入新的圖書記錄中。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cover, \-c
+供已加入書本使用之書本封面路徑
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-duplicates, \-d
+即使已經存在，也加入書籍到資料庫中。 根據書名和作者進行比較。 請注意，\fI\%\-\-automerge\fP 選項優先。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-empty, \-e
+加入空的電子書（沒有格式的書本）
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-identifier, \-I
+為這本書設定識別項，例如 \-I asin:XXX \-I isbn:YYY
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-isbn, \-i
+編輯已加入的書本 ISBN
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-languages, \-l
+以逗號分隔的語言清單(最好使用ISO639所規範的語言格式，不過有些語言的名稱也能夠識別)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-series, \-s
+編輯已加入的書本系列
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-series\-index, \-S
+編輯已加入的書本編號
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-tags, \-T
+編輯已加入的書本標籤
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-title, \-t
+編輯已加入的書本標題
+.UNINDENT
+.SS 正在從資料夾中加入
+.sp
+用來控制從資料夾中加入書本的選項。預設情況下，只會加入具有已知電子書檔案類型的檔案。
+.INDENT 0.0
+.TP
+.B \-\-add
+檔名 (glob) 模式，在掃描資料夾中的檔案時將加入與此模式相符的檔案，即使這些檔案不是已知的電子書檔案類型。可以為多個模式多次指定。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore
+檔名模式 (glob) ，在掃瞄資料夾中的檔案時，與此模式相符的檔案將被忽略。可以為多個模式多次指定。例如：*.pdf 將忽略所有 PDF 檔案
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-one\-book\-per\-directory, \-1
+假定每個資料夾只有一本書，而在其中的所有檔案都是那本書的不同電子書格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-recurse, \-r
+遞迴地處理資料夾
+.UNINDENT
+.SH REMOVE
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb remove ids
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+從資料庫移除指定 id 的書籍。ids 應為以逗號分隔的 id 號列表(您可以使用搜尋命令來取得 id 號)。例如，23,34,57\-85 (如果指定一個區間，該區間的最後一個數字不會被包括在內)。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-permanent
+不要使用 資源回收筒
+.UNINDENT
+.SH ADD_FORMAT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb add_format [options] id ebook_file
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+用 ebook_file 將電子書加入到由 id 標識的邏輯圖書的可用格式中。如果格式已經存在，則取代它，除非指定了不取代選項。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-dont\-replace
+在格式已存在時不要取代
+.UNINDENT
+.SH REMOVE_FORMAT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb remove_format [options] id fmt
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+從 ID 辨識的邏輯書中刪除 fmt 格式。您可以透過使用搜尋命令取得 ID。fmt 應該是形如 LRF 或 TXT 或 EPUB 的一個檔案副檔名。如果邏輯書沒有 fmt 可用則什麼也不做。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.SH SHOW_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb show_metadata [options] id
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+顯示在 calibre 資料庫中儲存的 id 所標識的圖書的中繼資料。
+id 是來自搜尋命令的 id 編號。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-as\-opf
+以 OPF 格式(XML) 列印詮釋資料
+.UNINDENT
+.SH SET_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb set_metadata [options] book_id [/path/to/metadata.opf]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Set the metadata stored in the calibre database for the book identified by
+book_id from the OPF file metadata.opf. book_id is a book id number from the
+search command. You can get a quick feel for the OPF format by using the
+\-\-as\-opf switch to the show_metadata command. You can also set the metadata of
+individual fields with the \-\-field option. If you use the \-\-field option, there
+is no need to specify an OPF file.
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-field, \-f
+設定欄位。格式是field_name:value，例如：\fI\%\-\-field\fP tags:tag1,tag2。使用:option:\fI\-\-list\-fields\(ga來取得所有欄位名稱的列表。您可以多次指定此選項來設定多個欄位。注意：對於語言，您必須使用ISO639語言代碼 (例如en代表英文，fr代表法語等)。對於識別項，語法是:option:\fP\-\-field\(ga identifiers:isbn:XXXX,doi:YYYYY。對於布林(是/否)欄位使用真與假或是和否。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-list\-fields, \-l
+列出所有 \fI\%\-\-field\fP 選項所可以使用的詮釋資料欄位
+.UNINDENT
+.SH EXPORT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb export [options] ids
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+匯出指定 id（以逗號分隔的清單）的書本到檔案系統。
+匯出的動作會儲存書籍的所有格式、封面和中繼資料（在
+opf 檔案中）。您可以用 search 指令取得 id 編號。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-all
+匯出資料庫中所有的書本，忽略 id 列表。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-asciiize
+让calibre将所有非英文字符转换成英文对应字符的文件名。如果保存到不完全支持Unicode文件名的旧文件系统中，这将非常有用。 指定這個開關會關閉這個行為。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-save\-cover
+Normally, calibre will save the cover in a separate file along with the actual e\-book files. 指定這個開關會關閉這個行為。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-update\-metadata
+通常calibre將會更新從書庫中所儲存的詮釋資料，這會讓儲存至磁碟變慢。 指定這個開關會關閉這個行為。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dont\-write\-opf
+通常calibre會把詮釋資料寫入個別的OPF檔，和真實的電子書分離。 指定這個開關會關閉這個行為。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-formats
+每本書本的格式列表，逗號間隔。預設保存所有可用格式。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-progress
+回報進度
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-replace\-whitespace
+以底線替代空格。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-single\-dir
+匯出全部的書本到單一個資料夾中
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-template
+The template to control the filename and folder structure of the saved files. Default is \fB\(dq\fP{author_sort}/{title}/{title} \- {authors}\fB\(dq\fP which will save books into a per\-author subfolder with filenames containing title and author. Available controls are: {author_sort, authors, id, isbn, languages, last_modified, pubdate, publisher, rating, series, series_index, tags, timestamp, title}
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timefmt
+顯示日期的格式。 %d \- 日、 %b \- 月、 %m \- 數字月、 %Y \- 年。預設值為： %b, %Y
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-to\-dir
+匯出書本到指定的資料夾中，預設為： .
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-to\-lowercase
+路徑轉換為小寫。
+.UNINDENT
+.SH CATALOG
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb catalog /path/to/destination.(csv|epub|mobi|xml...) [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Export a \fBcatalog\fP in format specified by path/to/destination extension.
+Options control how entries are displayed in the generated \fBcatalog\fP output.
+Note that different \fBcatalog\fP formats support different sets of options. To
+see the different options, specify the name of the output file and then the
+\-\-help option.
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-ids, \-i
+逗號分割資料庫 ID 到書目的列表。 一旦聲明，則忽略 \fI\%\-\-search\fP  預設值：全部
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-search, \-s
+為搜尋查詢過濾結果。搜尋查詢格式請參見使用者手冊中搜尋相關內容。預設：不過濾
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-verbose, \-v
+顯示詳細的輸出資訊，便於除錯。
+.UNINDENT
+.SS EPUB選項
+.INDENT 0.0
+.TP
+.B \-\-catalog\-title
+生成目录的标题用作元数据标题。 默认值：\fB\(aq\fPMy Books\fB\(aq\fP 适用于：AZW3，ePub，MOBI 等输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cross\-reference\-authors
+为具有多个作者的书籍在作者节中创建交叉引用。 默认值: \fB\(aq\fPFalse\fB\(aq\fP 适用于: AZW3, EPUB, MOBI输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-debug\-pipeline
+Save the output from different stages of the conversion pipeline to the specified folder. Useful if you are unsure at which stage of the conversion process a bug is occurring. Default: \fB\(aq\fPNone\fB\(aq\fP Applies to: AZW3, EPUB, MOBI output formats
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exclude\-genre
+描述以排除类型的标签正则表达式。 默认值： \fB\(aq\fP[.+]|^+$\fB\(aq\fP 不包括括号内的标签，例如 \fB\(aq\fP[Project Gutenberg]\fB\(aq\fP, 和 \fB\(aq\fP+\fB\(aq\fP, 默认的用于阅读书籍的标签。 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exclusion\-rules
+指定用于从生成的目录中排除书籍的规则。 排除规则的模型是(\fB\(aq\fP<rule name>\fB\(aq\fP,\fB\(aq\fP标签\fB\(aq\fP,\fB\(aq\fP<comma\-separated list of tags>\fB\(aq\fP) 或(\fB\(aq\fP<rule name>\fB\(aq\fP,\fB\(aq\fP<custom column>\fB\(aq\fP,\fB\(aq\fP<pattern>\fB\(aq\fP)。 例如： ((\fB\(aq\fP存档的书籍\fB\(aq\fP,\fB\(aq\fP#状态\fB\(aq\fP,\fB\(aq\fP已存档\fB\(aq\fP),) 将在自定义列“状态”中排除值为“已存档”的图书。定义多个规则时，将应用所有规则。 默认: \fB\(dq\fP((\fB\(aq\fPCatalogs\fB\(aq\fP,\fB\(aq\fPTags\fB\(aq\fP,\fB\(aq\fPCatalog\fB\(aq\fP),)\fB\(dq\fP 应用于AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-authors
+目录中包括“作者”部分。 默认值： \fB\(aq\fPFalse\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-descriptions
+目录中包括“描述”部分。 默认值： \fB\(aq\fPFalse\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-genres
+目录中包括“类型”部分。 默认值： \fB\(aq\fPFalse\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-recently\-added
+目录中包括“最近添加”部分。 默认值： \fB\(aq\fPFalse\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-series
+目录中包括“丛书系列”部分。 默认值： \fB\(aq\fPFalse\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-generate\-titles
+目录中包括“标题”部分。 默认值： \fB\(aq\fPFalse\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-genre\-source\-field
+“类型”部分的源字段。 默认值： \fB\(aq\fP標籤\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-header\-note\-source\-field
+包含要在描述标头中插入的注释文本的自定义域。 默认值: \fB\(aq\fP\fB\(aq\fP 适用于: AZW3, EPUB, MOBI输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-merge\-comments\-rule
+#<custom field>:[before|after]:[True|False] 指定:  <custom field> 包含与注释合并的注释的自定义字段  [before|after] 关于注释的注释放置位置  [True|False] \- 在注意和注释之间插入水平规则 默认值: \fB\(aq\fP::\fB\(aq\fP 适用于: AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-output\-profile
+指定输出配置文件。在某些情况下，输出配置文件用于优化某些设备的书目分类。例如，\fB\(aq\fPkindle\fB\(aq\fP 或 \fB\(aq\fPkindle_dx\fB\(aq\fP 以章节和文章的方式来生成目录结构。默认：\fB\(aq\fPNone\fB\(aq\fP 适用于：AZW3、EPUB、MOBI 等输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-prefix\-rules
+指定用于包括表示已读书籍，收藏清单项目和其他用户 定前缀的前缀的规则。前缀规则的模型  (\fB\(aq\fP<rule name>\fB\(aq\fP,\fB\(aq\fP<source field>\fB\(aq\fP,\fB\(aq\fP<pattern>\fB\(aq\fP,\fB\(aq\fP<prefix>\fB\(aq\fP)。 当定义了多个规则时，将使用第一个匹配规则 默认规则:\fB\(dq\fP((\fB\(aq\fPRead books\fB\(aq\fP,\fB\(aq\fPtags\fB\(aq\fP,\fB\(aq\fP+\fB\(aq\fP,\fB\(aq\fP✓\fB\(aq\fP),(\fB\(aq\fPWishlist item\fB\(aq\fP,\fB\(aq\fPtags\fB\(aq\fP,\fB\(aq\fPWishlist\fB\(aq\fP,\fB\(aq\fP×\fB\(aq\fP))\fB\(dq\fP适用于：AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-preset
+使用GUI目录生成器创建的命名预设。 预设指定用于构建目录的所有设置。 默认值: \fB\(aq\fPNone\fB\(aq\fP 适用于: AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-thumb\-width
+目录中书籍封面的大小提示(英寸)。 范围： 1.0 \- 2.0 默认值： \fB\(aq\fP1.0\fB\(aq\fP 适用于： AZW3, EPUB, MOBI 输出格式
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-use\-existing\-cover
+在產生目錄時取代現有的封面。 預設值： \fB\(aq\fPFalse\fB\(aq\fP 適用於： AZW3, EPUB, MOBI 輸出格式
+.UNINDENT
+.SH SAVED_SEARCHES
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb saved_searches [options] (list|add|remove)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+管理儲存在該資料庫中的儲存搜尋。
+如果嘗試加入已經存在的一個名稱查詢，
+則它將被取代。
+.sp
+加入語法：
+.sp
+calibredb \fBsaved_searches\fP add search_name search_expression
+.sp
+刪除語法：
+.sp
+calibredb \fBsaved_searches\fP remove search_name
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.SH ADD_CUSTOM_COLUMN
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb add_custom_column [options] label name datatype
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+建立一個自訂的欄位，標籤名為機器讀取用的名稱，不能包含空格或冒號。名稱則是方便人類閱讀。資料類型可為：bool, comments, composite, datetime, enumeration, float, int, rating, series, text
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-display
+一個自訂選項如何解釋該列中資料的字典。這是一個 JSON 字串。對於枚舉列，使用 \fI\%\-\-display\fP\fB\(dq\fP{\e \fB\(dq\fPenum_values\e \fB\(dq\fP:[\e \fB\(dq\fPval1\e \fB\(dq\fP, \e \fB\(dq\fPval2\e \fB\(dq\fP]}\fB\(dq\fP 有許多選項可以進入顯示變數，按列類型的選項是： composite: composite_template, composite_sort, make_category,contains_html, use_decorations datetime: date_format enumeration: enum_values, enum_colors, use_decorations int, float: number_format text: is_names, use_decorations 找到適當組合的最好方法是在 GUI 中建立適當類型的自訂列，然後檢視圖書的備份 OPF (確保自從加入該列以來已經建立了新的 OPF)。在 OPF 中的新列中，您將看到 JSON 的「顯示」。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-is\-multiple
+這個欄位儲存類似標籤的資料（例如多個逗號分隔的數值）。只有在資料類型為文字時套用。
+.UNINDENT
+.SH CUSTOM_COLUMNS
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb custom_columns [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+列出可用的自訂列欄位。顯示欄位標籤和 ids。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-details, \-d
+顯示每個欄位的詳細資料。
+.UNINDENT
+.SH REMOVE_CUSTOM_COLUMN
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb remove_custom_column [options] label
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+用標籤刪除的自訂列標識。可以使用custom_columns command命令檢視可用列
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-force, \-f
+不需要進行詢問確認
+.UNINDENT
+.SH SET_CUSTOM
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb set_custom [options] column id value
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+為 id 標識的書設定自訂列的值。
+您可以使用搜尋命令取得 id 列表。
+您可以使用 custom_columns 命令取得自訂列名的列表。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-append, \-a
+如果欄位可存多值，將選定的屬性加入現有屬性中，而非取代。
+.UNINDENT
+.SH RESTORE_DATABASE
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb restore_database [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Restore this database from the metadata stored in OPF files in each
+folder of the calibre library. This is useful if your metadata.db file
+has been corrupted.
+.sp
+WARNING: This command completely regenerates your database. You will lose
+all saved searches, user categories, plugboards, stored per\-book conversion
+settings, and custom recipes. Restored metadata will only be as accurate as
+what is found in the OPF files.
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-really\-do\-it, \-r
+確實執行還原。這個指令除非指定這個選項否則不會執行。
+.UNINDENT
+.SH CHECK_LIBRARY
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb check_library [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+對表示書庫的檔案系統執行一些檢查。產生報告是 invalid_titles, extra_titles, invalid_authors, extra_authors, missing_formats, extra_formats, extra_files, missing_covers, extra_covers, failed_folders
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-csv, \-c
+輸出為 CSV
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore_extensions, \-e
+以逗號分割忽略的副檔名。 預設值：全部
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore_names, \-n
+以逗號分割忽略的檔名。 預設值：全部
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-report, \-r
+以逗號分割報告清單。 預設值：全部
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-vacuum\-fts\-db
+清空全文搜尋資料庫。這可能非常緩慢且佔用大量記憶體，具體取決於資料庫的大小。
+.UNINDENT
+.SH LIST_CATEGORIES
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb list_categories [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+在資料庫中產生一個目錄資訊的報告。
+該資訊與標籤窗格中顯示的資訊等效。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-categories, \-r
+以逗號分割分類查詢名稱。 預設值：全部
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-csv, \-c
+輸出為 CSV
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-dialect
+指定輸出的CSV檔案格式，格式: excel, excel\-tab, unix
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-item_count, \-i
+只列出每個分類中的書本總數，而不是列出每個分類中的書本。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-width, \-w
+輸出中單一行的最大寬度。預設值為偵測螢幕大小。
+.UNINDENT
+.SH BACKUP_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb backup_metadata [選項]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+將儲存在資料庫中的中繼資料備份到每個圖書資料夾中的
+單個 OPF 檔案中。這通常是自動發生的，但是您可以執行
+此命令來強制重新產生 OPF 檔案，並使用 \-\-all 選項。
+.sp
+請注意，通常不需要這樣做，因為每次中繼資料變更時，
+OPF 檔案都會自動備份。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-all
+此命令通常僅對於過時的OPT檔案進行操作，此選項會使它在所有的書本上操作。
+.UNINDENT
+.SH CLONE
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb 複製到 path/to/new/library
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+建立目前書庫的副本。它建立了一個新的、空的書庫，它所有的自訂列、虛擬書庫和其他設定與目前書庫相同。
+.sp
+副本書庫將沒有任何書籍。如果您想要建立一個完整的副本書庫，包括所有的書籍，那麼只需使用您的檔案系統工具來複製書庫資料夾。
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.SH EMBED_METADATA
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb embed_metadata [options] book_id
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+從 calibre 資料庫中的中繼資料更新儲存在 calibre 書庫中的實際圖書檔案中的中繼資料。
+通常，只有從 calibre 匯出檔案時才更新中繼資料，如果希望檔案就地更新，則此命
+令很有用。請注意，不同的檔案格式支援不同數量的中繼資料。您可以使用book_id
+的特殊值「all」來更新所有書籍中的中繼資料。還可以指定許多由空間分隔的書籍 ID
+和由連字號分隔的 ID 範圍。例如：calibredb \fBembed_metadata\fP 1 2 10\-15 23
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-only\-formats, \-f
+只更新特定格式檔案的詮釋資料，可以指定多個檔案格式。預設值將會更新所有格式的檔案。
+.UNINDENT
+.SH SEARCH
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb search [options] search expression
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+搜尋書庫中指定的搜尋項目，返回與搜尋運算式相符的以逗號分隔的圖書ID列表。輸出格式對於輸入格式接受ID列表的其他命令非常有用。
+搜尋運算式可以是來自calibre強大的搜尋查詢語言中的任何內容，例如：calibredb \fBsearch\fP author:asimov \(aqtitle:\(dqi robot\(dq\(aq
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-limit, \-l
+結果回傳結果的最大數目。預設回傳全部結果
+.UNINDENT
+.SH FTS_INDEX
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb fts_index [options] enable/disable/status/reindex
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Control the Full text search indexing process.
+.INDENT 0.0
+.TP
+.B enable
+Turns on FTS indexing for this library
+.TP
+.B disable
+Turns off FTS indexing for this library
+.TP
+.B status
+Shows the current indexing status
+.TP
+.B reindex
+Can be used to re\-index either particular books or
+the entire library. To re\-index particular books
+specify the book ids as additional arguments after the
+reindex command. If no book ids are specified the
+entire library is re\-indexed.
+.UNINDENT
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-indexing\-speed
+索引的速度。使用快速索引可使用所有電腦資源進行快速索引，使用慢速索引可使用較少的資源進行索引。請注意，每次呼叫索引後，索引速度都會重設為 Slow。
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-wait\-for\-completion
+等到所有圖書都被編入索引，定期顯示索引進度
+.UNINDENT
+.SH FTS_SEARCH
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibredb fts_search [options] search expression
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Do a full text search on the entire library or a subset of it.
+.sp
+每当向具有它们自己空间的calibredb传递参数时，用引号括起这些参数。例如: \(dq/some path/with spaces\(dq
+.INDENT 0.0
+.TP
+.B \-\-do\-not\-match\-on\-related\-words
+Only match on exact words not related words. So correction will not match correcting.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-include\-snippets
+Include snippets of the text surrounding each match. Note that this makes searching much slower.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-indexing\-threshold
+How much of the library must be indexed before searching is allowed, as a percentage. Defaults to 90
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-match\-end\-marker
+The marker used to indicate the end of a matched word inside a snippet
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-match\-start\-marker
+The marker used to indicate the start of a matched word inside a snippet
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-output\-format
+The format to output the search results in. Either \fB\(dq\fPtext\fB\(dq\fP for plain text or \fB\(dq\fPjson\fB\(dq\fP for JSON output.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-restrict\-to
+Restrict the searched books, either using a search expression or ids. For example: ids:1,2,3 to restrict by ids or search:tag:foo to restrict to books having the tag foo.
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

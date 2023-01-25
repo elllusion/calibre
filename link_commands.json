@@ -1,0 +1,456 @@
+[
+  {
+    "arguments": [
+      "g++",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/hunspell/hunspell_wrapper.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/hunspell.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-L/usr/lib",
+      "-lhunspell-1.7"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/hunspell.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/hyphen/hyphen.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/hyphen.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-lhyphen"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/hyphen.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/uchardet/uchardet.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/uchardet.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-L/usr/lib",
+      "-luchardet"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/uchardet.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/unicode_names/unicode_names.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/unicode_names.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/unicode_names.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/speedup/speedup.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/speedup.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-lm"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/speedup.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/certgen/certgen.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/certgen.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-lcrypto"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/certgen.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/html_syntax_highlighter/html.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/html_syntax_highlighter.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/html_syntax_highlighter.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/tokenizer/tokenizer.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/tokenizer.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/tokenizer.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/_patiencediff_c/_patiencediff_c.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/_patiencediff_c.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/_patiencediff_c.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/icu/icu.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/icu.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-licudata",
+      "-licui18n",
+      "-licuuc",
+      "-licuio"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/icu.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/matcher/matcher.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/matcher.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-licudata",
+      "-licui18n",
+      "-licuuc",
+      "-licuio"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/matcher.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/sqlite_custom/sqlite_custom.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/sqlite_custom.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/sqlite_custom.so"
+  },
+  {
+    "arguments": [
+      "g++",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/sqlite_extension/sqlite_extension.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/sqlite_extension.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-licudata",
+      "-licui18n",
+      "-licuuc",
+      "-licuio",
+      "-lstemmer"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/sqlite_extension.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/lzx/lzxc.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/lzx/compressor.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/lzx/lzxmodule.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/lzx/lzc.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/lzx/lzxd.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/lzx.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/lzx.so"
+  },
+  {
+    "arguments": [
+      "g++",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/freetype/freetype.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/freetype.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-L/usr/lib",
+      "-lfreetype"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/freetype.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/msdes/des.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/msdes/msdesmodule.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/msdes.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/msdes.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/cPalmdoc/palmdoc.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/cPalmdoc.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/cPalmdoc.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/bzzdec/bzzdecoder.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/bzzdec.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/bzzdec.so"
+  },
+  {
+    "arguments": [
+      "g++",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/images.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/outlines.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/fonts.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/utils.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/doc.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/outline.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/podofo.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/output.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/podofo/impose.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/podofo.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-L/usr/lib",
+      "-lpodofo"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/podofo.so"
+  },
+  {
+    "arguments": [
+      "g++",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/html_as_json/html_as_json.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/html_as_json.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/html_as_json.so"
+  },
+  {
+    "arguments": [
+      "g++",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/fast_css_transform/fast_css_transform.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/fast_css_transform.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/fast_css_transform.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/libusb/libusb.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/libusb.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-lusb-1.0"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/libusb.so"
+  },
+  {
+    "arguments": [
+      "gcc",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/libmtp/libmtp.o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/build/objects/libmtp/devices.o",
+      "-o",
+      "/home/mslos/\u684c\u9762/kovidgoyal/calibre/src/calibre/plugins/libmtp.so",
+      "-Wall",
+      "-shared",
+      "-L/usr/lib/x86_64-linux-gnu",
+      "-lpython3.10",
+      "-Xlinker",
+      "-export-dynamic",
+      "-Wl,-O1",
+      "-Wl,-Bsymbolic-functions",
+      "-lmtp"
+    ],
+    "directory": "/home/mslos/\u684c\u9762/kovidgoyal/calibre",
+    "output": "src/calibre/plugins/libmtp.so"
+  }
+]

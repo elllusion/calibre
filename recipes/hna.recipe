@@ -1,0 +1,47 @@
+__license__ = 'GPL v3'
+__copyright__ = '2008, Kovid Goyal <kovid at kovidgoyal.net>'
+
+'''
+Fetch Hessisch Niedersachsische Allgemeine.
+'''
+
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+class hnaDe(BasicNewsRecipe):
+
+    title = 'HNA'
+    description = 'local news from Hessen/Germany'
+    __author__ = 'Oliver Niesner'
+    use_embedded_content = False
+    language = 'de'
+    use_embedded_content = False
+    timefmt = ' [%d %b %Y]'
+    max_articles_per_feed = 40
+    no_stylesheets = True
+    remove_javascript = True
+    encoding = 'utf-8'
+    masthead_url = 'https://idcdn.de/west/assets/hna-de/img/logo--cf5324e1.svg'
+
+    def get_cover_url(self):
+        soup = self.index_to_soup('https://epaper.meinehna.de/')
+        if a := soup.find('a', attrs={'class':'edition-cover__link'}):
+            if citem := a.find('img', src=True):
+                return citem['src']
+
+    keep_only_tags = [
+        dict(name='article', attrs={'class':lambda x: x and 'id-Story' in x.split()})
+    ]
+    remove_tags = [
+        classes(
+            'id-DonaldBreadcrumb id-StoryElement-interactionBar id-Recommendation '
+            'id-Comments id-Comments--targetHelper id-StoryElement-inArticleReco'
+        )
+    ]
+
+    feeds = [
+        ('hna_soehre', 'http://feeds2.feedburner.com/hna/soehre'),
+        ('hna_kassel', 'http://feeds2.feedburner.com/hna/kassel'),
+        ('hna_KSV', 'http://feeds2.feedburner.com/hna/ksv'),
+        ('hna_kultur', 'http://feeds2.feedburner.com/hna/kultur')
+    ]

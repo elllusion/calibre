@@ -1,0 +1,271 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CALIBRE-SERVER" "1" "januari 06, 2023" "6.11.0" "calibre"
+.SH NAME
+calibre-server \- calibre-server
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+calibre\-server [options] [path to library folder...]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Start de calibre Content server. De calibre Content server toont uw
+calibre bibliotheken via het internet. U kan het pad naar de bibliotheek
+mappen specificeren als argumenten bij \fBcalibre\-server\fP\&. Als u geen pad specificeert,
+worden alle bibliotheken die het calibre hoofdprogramma kent, gebruikt.
+.sp
+Als u aan \fBcalibre\-server\fP parameters met spaties mee wilt geven, moet u deze met aanhalingstekens omsluiten. Bv.: \(dq/some path/with spaces\(dq
+.SH [OPTIES]
+.INDENT 0.0
+.TP
+.B \-\-access\-log
+Pad naar toegangslogbestand. Dit houdt informatie bij over clients die verbinding maken met de server en aanvragen indienen. Standaard worden geen toegangslogbestanden bijgehouden.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ajax\-timeout
+Tijd (in seconden) om te wachten op een antwoord van de server bij zoekopdrachten.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-auth\-mode
+Kies het type authenticatie dat gebruikt is.        Stel de HTTP authenticatie modus in gebruikt door de server. Op \fB\(dq\fPbasis\fB\(dq\fP als u de server achter een proxy zet, laat het anders op \fB\(dq\fPauto\fB\(dq\fP wat \fB\(dq\fPbasis\fB\(dq\fP gebruikt als SSL is ingesteld, anders gebruikt het \fB\(dq\fPdigest\fB\(dq\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-auto\-reload
+Herstart automatisch wanneer de bron code veranderd. Handig voor ontwikkeling. U zou ook een kleine waarde moeten geven aan de afsluit timeout.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ban\-after
+Aantal mislukte inlogpogingen voor bannen.  Het aantal mislukte inlogpogingen waarna een IP adres wordt geband
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ban\-for
+Ban IP adressen met meerdere mislukte inlogpogingen.        Bant tijdelijk IP adressen die meerdere mislukte inlogpogingen hebben voor het gespecificeerde aantal minuten. Nuttig om pogingen tot wachtwoord raden te voorkomen. Indien ingesteld op 0 wordt er niet geband.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-book\-list\-mode
+De standaard boekenlijst modus kiezen.      Stel de standaard boekenlijst modus in voor nieuwe gebruikers. Individuele gebruikers kunnen de standaard negeren in hun instellingen. De standaard is een omslagraster.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-compress\-min\-size
+Minimale grootte waarbij antwoorden data compressie gebruiken (in bytes).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-custom\-list\-template
+Pad naar een JSON bestand met een sjabloon voor de aangepaste boekenlijst modus. De gemakkelijkste manier om zo\fB\(aq\fPn sjabloonbestand te creëren is via Voorkeuren\->Delen\->Delen via (inter)net\->Boek lijst sjabloon in calibre, creëer de sjabloon en exporteer ze.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-daemonize
+Draai het proces in de achtergrond als een daemon (enkel Linux)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-displayed\-fields
+Getoonde gebruiker gedefinieerde velden beperken.   Komma gescheiden lijst met door de gebruiker gedefinieerde metadatavelden die door de Content server in de /opds en /mobile weergaven worden getoond. Als u deze optie selecteert, worden velden die niet in deze lijst zijn opgenomen niet weergegeven. Bv.: my_rating,my_tags
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-allow\-socket\-preallocation, \-\-disable\-allow\-socket\-preallocation
+Socket voor\-toewijzing, bv. bij systemd socket activatie. Deze optie is standaard ingeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-auth, \-\-disable\-auth
+Wachtwoord gebaseerde authenticatie voor toegang tot de server.     Normaal heeft de server geen beperkingen en geeft iedereen toegang. Met deze optie kan u toegang beperken tot vooraf gedefinieerde gebruikers. Deze optie is standaard uitgeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-fallback\-to\-detected\-interface, \-\-disable\-fallback\-to\-detected\-interface
+Terug vallen op automatisch gedetecteerde interface.        Als de server voor een bepaalde reden niet in staat is om te \fB\(dq\fPbind\fB\(dq\fPen  met de interface gespecificeerd in listen_on, probeert hij een interface te detecteren die met de buitenwereld verbindt en bind daarmee. Deze optie is standaard ingeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-local\-write, \-\-disable\-local\-write
+Laat niet\-geauthentiseerde lokale verbindingen veranderingen maken.         Normaal, als u authenticatie niet aanzet, werkt de server in alleen\-lezen modus zodat anonieme gebruikers geen veranderingen kunnen aanbrengen in uw calibre bibliotheken. Deze optie laat iedereen die verbindt vanop dezelfde computer als waarop de server draait veranderingen maken. Nuttig als u de server wilt draaien zonder authenticatie maar toch calibredb wilt gebruiken om uw bibliotheken te wijzigen. Merk op dat deze optie aanzetten betekent dat elk programma op de computer uw calibre bibliotheken kan wijzigen. Deze optie is standaard uitgeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-log\-not\-found, \-\-disable\-log\-not\-found
+HTTP 404 (Niet Gevonden) verzoeken loggen.  Normaal logt de server alle HTTP verzoeken voor bronnen die hij niet vond. Dit kan een hoop log spam genereren als uw server het doel wordt van bots. Gebruik deze optie om het af te zetten. Deze optie is standaard ingeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-use\-bonjour, \-\-disable\-use\-bonjour
+Adverteer OPDS feeds via BonJour.   Adverteer de OPDS feeds via de BonJour dienst, zodat OPDS gebaseerde reading apps de server kunnen detecteren en automatisch verbinden. Deze optie is standaard ingeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-use\-sendfile, \-\-disable\-use\-sendfile
+Zero copy file transfers for increased performance.         This will use zero\-copy in\-kernel transfers when sending files over the network, increasing performance. However, it can cause corrupted file transfers on some broken filesystems. If you experience corrupted file transfers, turn it off. Deze optie is standaard ingeschakeld.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+toon dit helpbericht en stop
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignored\-fields
+Genegeerde door de gebruiker gedefinieerde metadata velden.         Door komma\fB\(aq\fPs gescheiden lijst van door de gebruiker gedefinieerde metadata gegevensvelden die niet door de inhoudsserver in de weergaven /OPDS en /mobiel worden weergegeven. Bijvoorbeeld: my_rating,my_tags
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-listen\-on
+De interface waarop te luisteren voor verbindingen.         Standaard is luisteren op alle beschikbare IPv4 interfaces. U kan dit veranderen naar bv. \fB\(dq\fP127.0.0.1\fB\(dq\fP om enkel naar verbindingen van de lokale machine te luisteren of naar \fB\(dq\fP::\fB\(dq\fP om naar alle inkomende IPv6 en IPv4 verbindingen te luisteren.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-log
+Pad naar logbestand voor serverlog. Dit logbestand bevat servergegevens en fouten, maar geen toegangslogs. Het wordt standaard naar stdout geschreven.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-manage\-users
+Beheer de database met gebruikers die met deze server mogen verbinden. U kan het in automatische modus gebruiken door toevoeging van een \-\-. Bekijk calibre\-server \fI\%\-\-manage\-users\fP \fB\-\-\fP help voor details. Bekijk ook de \fI\%\-\-userdb\fP optie.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-header\-line\-size
+Max. grootte van enkele HTTP header (in KB).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-job\-time
+Maximale tijd voor werkprocessen.   Maximale tijd dat werker processen mogen draaien (in minuten). Stel in op nul voor geen limiet.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-jobs
+Maximale aantal werkprocessen.      Werker processen worden gelanceerd indien nodig en gebruikt voor grote taken zoals voorbereiden van een boek om te tonen, boeken toevoegen, converteren, enz. Normaal is het maximale aantal gebaseerd op het aantal CPU kernen. U kan het controleren met deze instelling.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-log\-size
+Max. logfile grootte (in MB).       Maximum grootte van log bestanden gegenereerd door de server. Als de log groter wordt, wordt het automatisch geroteerd. Zet op nul om log rotatie uit te schakelen.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-opds\-items
+Maximale aantal boeken in OPDS feeds.       Maximum aantal boeken dat de server terug geeft in een enkele OPDS verkrijgingsfeed.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-opds\-ungrouped\-items
+Maximaal aantal niet\-gegroepeerde items in OPDS\-feeds.      Groepeer items in categorieën zoals auteur/labels per beginletter wanneer er meer items dan dit aantal zijn. Stel op nul in om uit te schakelen.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-request\-body\-size
+Toegestane max. bestandsgrootte om naar server te uploaden (in MB).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-num\-per\-page
+Aantal boeken te tonen op een enkele pagina.        Aantal boeken te tonen op een enkele pagina in de browser.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pidfile
+Schrijf het PID van het proces naar het opgegeven bestand
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-port
+De poort waarop geluisterd word naar verbindingen.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-search\-the\-net\-urls
+Pad naar JSON bestand met URLs voor de \fB\(dq\fPDoorzoek het internet\fB\(dq\fP functie. De gemakkelijkste manier om zo\fB\(aq\fPn bestand te creëren is via Voorkeuren\->Delen\->Delen via (inter)net\->Doorzoek het internet in calibre, creëer de URLs en exporteer ze.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-shutdown\-timeout
+Totaaltijd in seconden om te wachten om netjes af te sluiten.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ssl\-certfile
+Pad naar bestand SSL certificaat.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ssl\-keyfile
+Pad naar bestand SSL persoonlijke sleutel.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timeout
+Tijd (in seconden) totdat een inactieve verbinding wordt gesloten.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-trusted\-ips
+Laat niet\-geauthentiseerde verbindingen van specifieke IP adressen veranderingen maken.     Normaal, als u authenticatie niet aanzet, werkt de server in alleen\-lezen modus zodat anonieme gebruikers geen veranderingen kunnen aanbrengen in uw calibre bibliotheken. Deze optie laat iedereen die verbindt vanop specifieke IP adressen veranderingen maken. Moet een komma gescheiden lijst zijn van adressen of netwerk specificaties. Nuttig als u de server wilt draaien zonder authenticatie maar toch calibredb wilt gebruiken om uw bibliotheken te wijzigen. Merk op dat deze optie aanzetten betekent dat iedereen die verbindt vanop de gespecificeerde adressen uw calibre bibliotheken kan wijzigen.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-url\-prefix
+Een prefix om voor alle URL\fB\(aq\fPs te zetten.    Nuttig als u deze server achter een omgekeerde proxy wil draaien. Bv. gebruik /calibre als het URL voorvoegsel.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-userdb
+Pad naar de gebruikersdatabase voor authenticatie. De database is een SQLite bestand. Gebruik \fI\%\-\-manage\-users\fP om het te creëren. U kan meer lezen over gebruikersbeheer op: \fI\%https://manual.calibre\-ebook.com/nl/server.html#managing\-user\-accounts\-from\-the\-command\-line\-only\fP
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+toon programmaversie en stop
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-worker\-count
+Aantal werker threads gebruikt om verzoeken te verwerken.
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

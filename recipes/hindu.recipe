@@ -1,0 +1,88 @@
+import json
+import re
+from collections import defaultdict
+from datetime import date
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+
+def absurl(url):
+    if url.startswith('/'):
+        url = 'https://www.thehindu.com' + url
+    return url
+
+
+local_edition = None
+# Chennai is default edition, for other editions use 'th_hyderabad', 'th_bangalore', 'th_delhi', 'th_kolkata' etc
+
+
+class TheHindu(BasicNewsRecipe):
+    title = 'The Hindu'
+    __author__ = 'unkn0wn'
+    language = 'en_IN'
+    no_stylesheets = True
+    masthead_url = 'https://www.thehindu.com/theme/images/th-online/thehindu-logo.svg'
+    remove_attributes = ['style', 'height', 'width']
+    extra_css = '.caption{font-size:small; text-align:center;}'\
+        '.author{font-size:small; font-weight:bold;}'\
+        '.subhead, .subhead_lead {font-weight:bold;}'\
+        'img {display:block; margin:0 auto;}'
+
+    ignore_duplicate_articles = {'url'}
+
+    keep_only_tags = [
+        classes('article-section ')
+    ]
+
+    remove_tags = [
+        classes('hide-mobile comments-shares share-page editiondetails')
+    ]
+
+    def preprocess_html(self, soup):
+        for cap in soup.findAll('p', attrs={'class':'caption'}):
+            cap.name = 'figcaption'
+        for img in soup.findAll('img', attrs={'data-original':True}):
+            img['src'] = img['data-original']
+        return soup
+
+    def parse_index(self):
+        if local_edition:
+            yr = str(date.today().year)
+            mn = date.today().strftime('%m')
+            dy = date.today().strftime('%d')
+            url = 'https://www.thehindu.com/todays-paper/' + yr + '-' + mn + '-' + dy + '/' + local_edition + '/'
+        else:
+            url = 'https://www.thehindu.com/todays-paper/'
+        raw = self.index_to_soup(url, raw=True)
+        soup = self.index_to_soup(raw)
+        ans = self.hindu_parse_index(soup)
+        cover = soup.find(attrs={'class':'hindu-ad'})
+        if cover:
+            self.cover_url = cover.img['src']
+        if not ans:
+            raise ValueError(
+                    'The Hindu Newspaper is not published Today.'
+                )
+        return ans
+
+    def hindu_parse_index(self, soup):
+        for script in soup.findAll('script'):
+            if not self.tag_to_string(script).strip().startswith('let grouped_articles = {}'):
+                continue
+            if script is not None:
+                art = re.search(r'grouped_articles = ({\"[^<]+?]})', self.tag_to_string(script))
+                data = json.loads(art.group(1))
+
+                feeds_dict = defaultdict(list)
+
+                a = json.dumps(data)
+                for sec in json.loads(a):
+                    for item in data[sec]:
+                        section = sec.replace('TH_', '')
+                        title = item['articleheadline']
+                        url = absurl(item['href'])
+                        desc = 'Page no.' + item['pageno'] + ' | ' + item['teaser_text'] or ''
+                        self.log('\t', title, '\n\t\t', url)
+                        feeds_dict[section].append({"title": title, "url": url, "description": desc})
+                return [(section, articles) for section, articles in feeds_dict.items()]
+            else:
+                return []

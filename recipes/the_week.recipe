@@ -1,0 +1,60 @@
+from calibre.web.feeds.news import BasicNewsRecipe
+from datetime import datetime
+
+
+class TheWeek(BasicNewsRecipe):
+    title = u'The Week'
+    description = (
+        'The Week is the best selling general interest English news magazine. The magazine covers politics, entertainment,'
+        ' social issues, trends, technology, lifestyle and everything else you should be knowing. Best downloaded on Mondays.')
+    language = 'en_IN'
+    __author__ = 'unkn0wn'
+    encoding = 'utf-8'
+    no_stylesheets = True
+    use_embedded_content = False
+    ignore_duplicate_articles = {'url', 'title'}
+    remove_attributes = ['style', 'height', 'width']
+    masthead_url = 'https://www.theweek.in/content/dam/week/logo/The-Week-Logo-Big.png'
+
+    keep_only_tags = [
+        dict(
+            name='div',
+            attrs={
+                'class': [
+                    'article-title', 'article-image', 'articlecontentbody section',
+                    'element11-page-content'
+                ]
+            }
+        ),
+    ]
+
+    def get_cover_url(self):
+        soup = self.index_to_soup(
+            'https://www.magzter.com/IN/Malayala_Manorama/THE_WEEK/Business/'
+        )
+        for citem in soup.findAll(
+            'meta', content=lambda s: s and s.endswith('view/3.jpg')
+        ):
+            return citem['content']
+
+    def parse_index(self):
+        soup = self.index_to_soup('https://www.theweek.in/theweek.html')
+        ans = []
+        d = datetime.today()
+
+        for a in soup.findAll(
+            'a', href=lambda x: x and '/' + d.strftime('%Y') + '/' in x
+        ):
+            url = a['href']
+            title = self.tag_to_string(a).strip()
+            if not url or not title:
+                continue
+            self.log('\t', title)
+            self.log('\t\t', url)
+            ans.append({'title': title, 'url': url})
+        return [('Articles', ans)]
+
+    def preprocess_html(self, soup):
+        for img in soup.findAll('img', attrs={'data-src-web': True}):
+            img['src'] = img['data-src-web']
+        return soup

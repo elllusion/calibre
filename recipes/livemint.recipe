@@ -1,0 +1,123 @@
+#!/usr/bin/env  python
+
+import json
+import re
+from datetime import date
+
+from calibre.web.feeds.news import BasicNewsRecipe, classes
+
+is_saturday = date.today().weekday() == 5
+
+
+class LiveMint(BasicNewsRecipe):
+    title = u'Live Mint'
+    description = 'Financial News from India.'
+    language = 'en_IN'
+    __author__ = 'Krittika Goyal, revised by unkn0wn'
+    oldest_article = 1.15  # days
+    max_articles_per_feed = 50
+    encoding = 'utf-8'
+    use_embedded_content = False
+    no_stylesheets = True
+    remove_attributes = ['style', 'height', 'width']
+    masthead_url = 'https://images.livemint.com/static/livemint-logo-v1.svg'
+
+    remove_empty_feeds =  True
+
+    if is_saturday:
+
+        cover_url = 'https://epsfs.hindustantimes.com/MINT/2022/04/16/Delhi/Delhi/5_01/bf867ea1_01_mr.jpg'
+
+        keep_only_tags = [
+            dict(name='h1'),
+            dict(name='h2', attrs={'id':'story-summary-0'}),
+            dict(name='picture'),
+            dict(name='div', attrs={'class':'innerBanCaption'}),
+            dict(name='div', attrs={'id':'date-display-before-content'}),
+            dict(name='div', attrs={'class':'storyContent'}),
+        ]
+        remove_tags = [
+            classes(
+                'sidebarAdv similarStoriesClass moreFromSecClass'
+            )
+        ]
+        feeds = [
+            ('News', 'https://lifestyle.livemint.com/rss/news'),
+            ('Food','https://lifestyle.livemint.com/rss/food'),
+            ('Fashion','https://lifestyle.livemint.com/rss/fashion'),
+            ('How to Lounge','https://lifestyle.livemint.com/rss/how-to-lounge'),
+            ('Smart Living','https://lifestyle.livemint.com/rss/smart-living'),
+        ]
+
+        def preprocess_html(self, soup):
+            for img in soup.findAll('img', attrs={'data-img': True}):
+                img['src'] = img['data-img']
+            return soup
+    else:
+        # some wsj articles wont load
+        extra_css = '''
+            #img-cap {font-size:small; text-align:center;}
+            #auth-info {font-size:small; text-align:center;}
+            .highlights {font-style:italic;}
+            .summary{font-style:italic; color:#404040;}
+        '''
+        cover_url = 'https://epsfs.hindustantimes.com/MINT/2022/04/05/Delhi/Delhi/5_01/1ec7ad14_01_mr.jpg'
+
+        keep_only_tags = [
+            dict(name='h1'),
+            dict(name='figure', attrs={'data-vars-mediatype':'image'}),
+            classes('articleInfo FirstEle summary highlights paywall'),
+        ]
+        remove_tags = [
+            classes(
+                'trendingSimilarHeight moreNews mobAppDownload label msgError msgOk taboolaHeight'
+                ' socialHolder imgbig disclamerText disqus-comment-count'
+            )
+        ]
+
+        feeds = [
+            ('Companies', 'https://www.livemint.com/rss/companies'),
+            ('Opinion', 'https://www.livemint.com/rss/opinion'),
+            ('Money', 'https://www.livemint.com/rss/money'),
+            ('Economy', 'https://www.livemint.com/rss/economy'),
+            ('Politics', 'https://www.livemint.com/rss/politics'),
+            ('Science', 'https://www.livemint.com/rss/science'),
+            ('Industry', 'https://www.livemint.com/rss/industry'),
+            ('Education', 'https://www.livemint.com/rss/education'),
+            ('Sports', 'https://www.livemint.com/rss/sports'),
+            ('Technology', 'https://www.livemint.com/rss/technology'),
+            ('News', 'https://www.livemint.com/rss/news'),
+            ('Mutual Funds', 'https://www.livemint.com/rss/Mutual Funds'),
+            ('Markets', 'https://www.livemint.com/rss/markets'),
+            ('AI', 'https://www.livemint.com/rss/AI'),
+            ('Insurance', 'https://www.livemint.com/rss/insurance'),
+            ('Budget', 'https://www.livemint.com/rss/budget'),
+            ('Elections', 'https://www.livemint.com/rss/elections'),
+        ]
+
+        def preprocess_raw_html(self, raw, *a):
+            if '<script>var wsjFlag=true;</script>' in raw:
+                m = re.search(r'type="application/ld\+json">[^<]+?"@type": "NewsArticle"', raw)
+                raw1 = raw[m.start():]
+                raw1 = raw1.split('>', 1)[1].strip()
+                data = json.JSONDecoder().raw_decode(raw1)[0]
+                value = data['hasPart']['value']
+                body = data['articleBody'] + '</p> <p>'\
+                        + re.sub(r'(([a-z]|[^A-Z])\.|\.”)([A-Z]|“[A-Z])', r'\1 <p> \3', value)
+                body = '<div class="FirstEle"> <p>' +  body  + '</p> </div>'
+                raw = re.sub(r'<div class="FirstEle">([^}]*)</div>', body, raw)
+                return raw
+            else:
+                return raw
+
+        def preprocess_html(self, soup):
+            for span in soup.findAll('figcaption'):
+                span['id'] = 'img-cap'
+            for auth in soup.findAll('span', attrs={'class':['articleInfo pubtime','articleInfo author']}):
+                auth['id'] = 'auth-info'
+                auth.name = 'div'
+            for span in soup.findAll('span', attrs={'class':'exclusive'}):
+                span.extract()
+            for img in soup.findAll('img', attrs={'data-src': True}):
+                img['src'] = img['data-src']
+            return soup

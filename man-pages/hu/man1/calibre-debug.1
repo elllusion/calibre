@@ -1,0 +1,199 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CALIBRE-DEBUG" "1" "január 06, 2023" "6.11.0" "calibre"
+.SH NAME
+calibre-debug \- calibre-debug
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+%pprog [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Various command line interfaces useful for debugging calibre. With no options,
+this command starts an embedded Python interpreter. You can also run the main
+calibre GUI, the calibre E\-book viewer and the calibre editor in debug mode.
+.sp
+It also contains interfaces to various bits of calibre that do not have
+dedicated command line tools, such as font subsetting, the E\-book diff tool and so
+on.
+.sp
+You can also use \fBcalibre\-debug\fP to run standalone scripts. To do that use it like this:
+.INDENT 0.0
+.INDENT 3.5
+\fBcalibre\-debug\fP \-e myscript.py \fB\-\-\fP \fB\-\-option1\fP \fB\-\-option2\fP file1 file2 ...
+.UNINDENT
+.UNINDENT
+.sp
+Everything after the \fB\-\-\fP is passed to the script. You can also use \fBcalibre\-debug\fP
+as a shebang in scripts, like this:
+.INDENT 0.0
+.INDENT 3.5
+#!/usr/bin/env \-S \fBcalibre\-debug\fP \-e \fB\-\-\fP \-\-
+.UNINDENT
+.UNINDENT
+.sp
+Amikor olyan argumentumokat ad át \fBcalibre\-debug\fP\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.SH [BEÁLLÍTÁSOK]
+.INDENT 0.0
+.TP
+.B \-\-add\-simple\-plugin
+Egyszerű bővítmény (azaz csupán egy .py fájlból álló bővítmény) hozzáadása a bővítménykódot tartalmazó py fájl elérési útjának megadásával.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-command, \-c
+Python kód futtatása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-debug\-device\-driver, \-d
+Eszközfelismerés hibakereső módban
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-default\-programs
+A Calibre (ki)regisztrálása a Windows alapértelmezett programok listájába/ból. \fI\%\-\-default\-programs\fP = \fB(register|unregister)\fP
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-diff
+A Calibre diff eszközének futtatása. Például: calibre\-debug \fI\%\-\-diff\fP fájl1 fájl2
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-edit\-book
+A Calibre könyvszerkesztő futtatása hibakereső módban.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-exec\-file, \-e
+Python kód futtatása a fájlon.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-explode\-book, \-x
+A könyv kicsomagolása a megadott mappába. Használat: \-x file.epub output_dir A könyvet HTML\-fájlok és metaadatok gyűjteményeként exportálja, amelyet a szokásos HTML\-szerkesztőeszközökkel szerkeszthet. Működik EPUB, AZW3, HTMLZ és DOCX fájlokkal.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-export\-all\-calibre\-data
+Export all calibre data (books/settings/plugins). Normally, you will be asked for the export folder and the libraries to export. You can also specify them as command line arguments to skip the questions. Use absolute paths for the export folder and libraries. The special keyword \fB\(dq\fPall\fB\(dq\fP can be used to export all libraries. Examples:    calibre\-debug \fI\%\-\-export\-all\-calibre\-data\fP  # for interactive use   calibre\-debug \fI\%\-\-export\-all\-calibre\-data\fP /path/to/empty/export/folder /path/to/library/folder1 /path/to/library2   calibre\-debug \fI\%\-\-export\-all\-calibre\-data\fP /export/folder all  # export all known libraries
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-fix\-multiprocessing
+Belső használatra
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-gui, \-g
+GUI futtatása hibakeresési módban. A hibakeresési információk az stdout és stderr\-ben jelenítődnek meg.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-gui\-debug
+GUI futtatása hibakeresési ablakkal, a megadott elérési útvonalra történő a naplózással. Csak belső használat esetén a \-g kapcsolóval futtatható a GUI hibakeresési módban
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+súgó megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-implode\-book, \-i
+Egy korábban kicsomagolt könyv becsomagolása. Használat: \-i output_dir file.epub Importálja a könyvet az output_dir fájlokból, amelyeket a \fI\%\-\-explode\-book\fP korábbi hívásával kell létrehozni. Ügyeljen arra, hogy ugyanazt a fájltípust adja meg, mint amit a felbontáskor használt.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-import\-calibre\-data
+Előzőleg exportált Calibre adatok importálása
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-inspect\-mobi, \-m
+Az adott útvonalon elérhető MOBI fájl(ok) elemzése.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-paths
+Kiírja a Calibre környezet beállításához szükséges elérési utakat
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-run\-plugin, \-r
+Run a plugin that provides a command line interface. For example: calibre\-debug \-r \fB\(dq\fPPlugin name\fB\(dq\fP \fB\-\-\fP file1 \fB\-\-option1\fP Everything after the \fB\-\-\fP will be passed to the plugin as arguments.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-run\-test, \-t
+Run the named test(s). Use the special value \fB\(dq\fPall\fB\(dq\fP to run all tests. If the test name starts with a period it is assumed to be a module name. If the test name starts with @ it is assumed to be a category name.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-run\-without\-debug
+Don\fB\(aq\fPt run with the DEBUG flag set
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-shutdown\-running\-calibre, \-s
+Egy futó Calibre példány bezárása. Ha vannak futó műveletek, akkor azok minden figyelmeztetés nélkül meg lesznek szakítva, ezért óvatosan használja.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-subset\-font, \-f
+A megadott betűtípus részhalmaza. Használja a \fB\-\-\fP kapcsolót az opció után, hogy átadja az opciót a betűkészlet\-kijelölő programnak.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-test\-build
+Bináris modulok tesztelése beépítés közben
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+program verziójának megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-viewer, \-w
+Az olvasóprogram indítása hibakereső módban
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

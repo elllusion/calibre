@@ -1,0 +1,49 @@
+import re
+from calibre.web.feeds.news import BasicNewsRecipe
+
+
+class AdvancedUserRecipe1359406781(BasicNewsRecipe):
+    title = u'Private Eye'
+    publication_type = 'magazine'
+    description = u'Private Eye is a fortnightly British satirical and current affairs magazine, edited by Ian Hislop'
+    oldest_article = 13
+    max_articles_per_feed = 100
+    remove_empty_feeds = True
+    remove_javascript = True
+    no_stylesheets = True
+    ignore_duplicate_articles = {'title'}
+    language = 'en_GB'
+    encoding = 'utf-8'
+    __author__ = u'Martyn Pritchard'
+    __copyright__ = '2020, Martyn Pritchard <MPritchard2k9@gmail.com>'
+
+    def get_cover_url(self):
+        cover_url = None
+        soup = self.index_to_soup('https://www.private-eye.co.uk')
+        for citem in soup.findAll('img'):
+            if citem['src'].endswith('big.jpg'):
+                return citem['src']
+        return cover_url
+
+    remove_tags_before = {'class': "article"}
+    remove_tags_after = {'class': "article"}
+    remove_tags = [dict(name='div', attrs={'id': 'sections-sidebar'})]
+    remove_tags = {'class': "sub-nav-bar"}
+    remove_tags = [dict(name='a', attrs={'class': 'twitter-share-button'})]
+    remove_tags = [dict(name='div', attrs={'id': 'nav-box-sections-mobile'})]
+
+    preprocess_regexps = [
+        (
+            re.compile(
+                r'<a href="https://www.subscription.*?</a>',
+                re.DOTALL | re.IGNORECASE
+            ), lambda match: ''
+        ),
+        (
+            re.compile(
+                r'<a class="twitter-share-button.*?</a>', re.DOTALL | re.IGNORECASE
+            ), lambda match: ''
+        ),
+    ]
+
+    feeds = [(u'http://bodybuilder3d.eu5.org/PrivateEyeStat.xml')]

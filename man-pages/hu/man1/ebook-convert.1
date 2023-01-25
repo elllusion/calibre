@@ -1,0 +1,618 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "EBOOK-CONVERT" "1" "január 06, 2023" "6.11.0" "calibre"
+.SH NAME
+ebook-convert \- ebook-convert
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+ebook\-convert input_file output_file [options]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Egy e\-könyv konvertálása egyik formátumból egy másikba.
+.sp
+input_file a bemenet és output_file a kimenet. Mindkettőt a parancs első két argumentumaként kell megadni.
+.sp
+A kimeneti e\-könyv formátumát az output_file fájlkiterjesztés alapján lehet kitalálni. A kimeneti fájl speciális .EXT formátumú is lehet, ahol az EXT a kimeneti fájl kiterjesztése. Ebben az esetben a kimeneti fájl neve a bemeneti fájl nevéből származik. Vegye figyelembe, hogy a fájlnevek nem kezdődhetnek kötőjellel. Végül, ha az output_file nem rendelkezik kiterjesztéssel, akkor mappaként kezeli, és egy HTML fájlokból álló \(dqOpen e\-book\(dq\-t (OEB) ír ebbe a mappába. Ezek azok a fájlok, amelyeket általában a kimeneti beépülő modulnak kellett volna átadni.
+.sp
+A bemeneti és kimeneti fájl megadása után testreszabhatja az átalakítást különféle beállítások megadásával. Az elérhető opciók a bemeneti és kimeneti fájltípusoktól függenek. Ha segítségre van szüksége, adja meg a bemeneti és kimeneti fájlt, majd használja a \(aq\-h\(aq kapcsolót.
+.sp
+Az átalakítási rendszer teljes dokumentációját lásd
+\fI\%E\-book conversion\fP
+.sp
+Amikor olyan argumentumokat ad át \fBebook\-convert\fP\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.sp
+TA beállítások és az opciók alapértelmezett értékei a bemeneti és kimeneti
+formátumtól függően változnak, ezért mindig ellenőrizze a következőket:
+.INDENT 0.0
+.INDENT 3.5
+ebook\-convert myfile.input_format myfile.output_format \-h
+.UNINDENT
+.UNINDENT
+.sp
+Az alábbiakban felsoroljuk azokat a beállításokat, amelyek minden konverzióra jellemzőek,
+majd az egyes bemeneti és kimeneti formátumokra jellemző beállításokat.
+.INDENT 0.0
+.IP \(bu 2
+\fI\%BEMENET\-BEÁLLÍTÁSOK\fP
+.IP \(bu 2
+\fI\%KIMENET\-BEÁLLÍTÁSOK\fP
+.IP \(bu 2
+\fI\%MEGJELENÉS\fP
+.IP \(bu 2
+\fI\%HEURISZTIKUS FELDOLGOZÁS\fP
+.IP \(bu 2
+\fI\%KERESÉS ÉS CSERE\fP
+.IP \(bu 2
+\fI\%STRUKTÚRA FELISMERÉS\fP
+.IP \(bu 2
+\fI\%TARTALOMJEGYZÉK\fP
+.IP \(bu 2
+\fI\%METAADATOK\fP
+.IP \(bu 2
+\fI\%HIBAKERESÉS\fP
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+súgó megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-input\-profile
+A forrás profil megadása. A bemeneti profil információt ad a konverziós rendszernek arról, hogyan értelmezze a különböző információkat a beviteli dokumentumban. Például a felbontástól függő hosszúságok (azaz a hosszúságok pixelben). A választási lehetőségek a következők: cybookg3, cybook_opus, default, hanlinv3, hanlinv5, illiad, irexdr1000, irexdr800, kindle, msreader, mobipocket, nook, sony, sony300, sony900
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-list\-recipes
+A beépített receptnevek listája. Létrehozhat egy e\-könyvet egy beépített receptből, így: ebook\-convert \fB\(dq\fPRecept Name.recept\fB\(dq\fP output.epub
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-output\-profile
+A kimeneti profil meghatározása. A kimeneti profil megmondja a konvertáló rendszernek, hogyan optimalizálja a létrehozott dokumentumot a megadott eszközhöz (például a képek átméretezésével az eszköz képernyőjének méretéhez). Egyes esetekben egy kimeneti profil használható egy adott eszköz kimenetének optimalizálására, de erre ritkán van szükség. A választási lehetőségek a következők:cybookg3, cybook_opus, default, hanlinv3, hanlinv5, illiad, ipad, ipad3, irexdr1000, irexdr800, jetbook5, kindle, kindle_dx, kindle_fire, kindle_oasis, kindle_pw, kindle_pw3, kindle_scribe, kindle_voyage, kobo, msreader, mobipocket, nook, nook_color, nook_hd_plus, pocketbook_inkpad3, pocketbook_lux, pocketbook_hd, pocketbook_900, pocketbook_pro_912, galaxy, sony, sony300, sony900, sony\-landscape, sonyt3, tablet, generic_eink, generic_eink_large, generic_eink_hd
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+program verziójának megjelenítése és kilépés
+.UNINDENT
+.SH BEMENET-BEÁLLÍTÁSOK
+.sp
+A(z) mobi bemeneti fájl feldolgozását vezérlő kapcsolók
+.INDENT 0.0
+.TP
+.B \-\-input\-encoding
+A forrás dokumentum karakterkódolásának meghatározása. Ez felülírja a dokumentum eredetei beállításait. Különösen hasznos olyan dokumentumoknál, ahol nincs, vagy hibásan van beállítva a karakterkódolás.
+.UNINDENT
+.SH KIMENET-BEÁLLÍTÁSOK
+.sp
+A(z) epub kimenet feldolgozását vezérlő kapcsolók
+.INDENT 0.0
+.TP
+.B \-\-dont\-split\-on\-page\-breaks
+Oldaltörésnél történő szétvágás kikapcsolása. Normális esetben a bemeneti fájlok minden oldaltörésnél két részre lesznek vágva. Ez olyan e\-book formátumot eredményez, amelyet gyorsabban, kevesebb erőforrást igényelve lehet beolvasni. Ez a művelet azonban lassú, és ha a forrásfájl sok oldaltörést tartalmaz, akkor érdemes alkalmazni ezt az opciót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-epub\-flatten
+Ez az opciók csak akkor szükséges, ha ez EPUB\-ot FBReaderJ\-vel szándékozik olvasni. Leegyszerűsíti az EPUB felépítését, az összes fájlt a felső szintre helyezi.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-epub\-inline\-toc
+Egy beágyazott tartalomjegyzék beillesztése, amely a fő könyvtartalom részeként fog megjelenni.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-epub\-toc\-at\-end
+A beszúrt tartalomjegyzéket helyezze a könyv végére az eleje helyett.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-epub\-version
+A generálandó EPUB\-fájl verziója. Az EPUB 2 a legszélesebb körben kompatibilis, csak akkor használja az EPUB 3\-at, ha tudja, hogy valóban szüksége van rá.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-extract\-to
+Kicsomagolja a generált EPUB fájl tartalmát a megadott mappába. Először a mappa tartalma törlődik, ezért legyen óvatos..
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-flow\-size
+Ossza fel az összes ennél a méretnél nagyobb HTML\-fájlt (KB\-ban). Erre azért van szükség, mert a legtöbb EPUB\-olvasó nem tudja kezelni a nagy fájlméreteket. Az alapértelmezett 260KB az Adobe Digital Editions használatához szükséges méret. Állítsa 0\-ra a méretalapú felosztás letiltásához.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-default\-epub\-cover
+Alapesetben, ha a forrás fájl nem tartalmaz borítót, és Ön nem ad meg egyet, akkor egy generált borító készül a könyvhöz a címmel, szerzővel stb. Ez az opció letiltja ezt az automatikusan generált borítót.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-svg\-cover
+Ne használjon SVG fájlt borítónak. Ezzel az opcióval az EPUB használható lesz olyan eszközökön, amelyek nem támogatják az SVG\-t, mint az iPhone vagy a JetBookLite. Enélkül az opció nélkül, az ilyen eszközök, egy üres lapot jelenítenek meg borítóként.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-preserve\-cover\-aspect\-ratio
+Ha SVG borító esetén használja ezt az opciót, akkor a borító a képernyő méretéhez lesz igazítva a méretarány megtartásával. Ez azt jelenti, hogy a a borító széleinél margó látható esetenként, de a kép nem lesz torzított. Ha nem használja ezt az opciót, akkor a borító kitölti a képernyőt, de enyhén torz lehet.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pretty\-print
+Ez egy általánosan elfogadható kimenetet hoz létre. Néhány kimeneti bővítmény esetén nincs semmilyen hatása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-toc\-title
+A generált Tartalomjegyzék címe.
+.UNINDENT
+.SH MEGJELENÉS
+.sp
+A kimeneti formátum megjelenítésének beállításai
+.INDENT 0.0
+.TP
+.B \-\-asciiize
+Unicode karakterek átírása ASCII\-ábrázolásra. Használja körültekintően, mert ezzel a Unicode karaktereket ASCII\-re cseréli. Például a „Pelé” helyett „Pele” lesz. Vegye figyelembe azt is, hogy azokban az esetekben, amikor egy karakternek többszörös ábrázolása van (például a kínai és a japán által megosztott karakterek), az aktuális Calibre interfésznyelven alapuló ábrázolás kerül felhasználásra.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-base\-font\-size
+Alap betűméret pontokban. Az elkészített könyvben szereplő összes betűméret átméretezésre kerül a méret alapján. Ha nagyobb méretet választ, a kimenetben lévő betűtípusokat nagyobbá teheti, és fordítva. Alapértelmezés szerint, ha az érték nulla, az alap betűméretet a rendszer a kiválasztott kimeneti profil alapján választja ki.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-change\-justification
+Szöveg rendezés módosítása. A „left” érték minden sorkizárt szöveget balra igazít. A „justify” érték minden igazítatlan szöveget sorkizárttá tesz. Az „original” (alapértelmezett) érték nem változtatja a forrás rendezettségét. Megjegyzendő, hogy csak néhány kimeneti formátum támogatja a rendezéseket.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-font\-rescaling
+A betűk átméretezésének tiltása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-embed\-all\-fonts
+Minden betűtípus beágyazása, amelyre hivatkozik a beviteli dokumentum, de még nincs beágyazva. Ez megkeresi a rendszerben a betűtípusokat, és ha megtalálja, beágyazódik. A beágyazás csak akkor működik, ha a konvertálandó formátum támogatja a beágyazott betűtípusokat, például EPUB, AZW3, DOCX vagy PDF. Kérjük, győződjön meg arról, hogy rendelkezik a dokumentumban használt betűtípusok beágyazásához szükséges megfelelő licenccel.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-embed\-font\-family
+A megadott betűtípus beágyazása a könyvbe. Ez lesz a könyv alap betűtípusa. Amennyiben a bemeneti fájl tartalmaz már saját betűtípust, az felülírja ezt a beállítást. A Stílus információk szűrésénél ezeket a már beágyazott betűtípusokat eltávolíthatja. Vegye figyelembe, hogy a betűtípus beágyazása csak bizonyos formátumoknál, alapvetően az EPUB, AZW3 és a DOCX formátumok esetében működik.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-expand\-css
+Alapértelmezés szerint a Calibre a gyorsított formát fogja használni a különböző CSS\-tulajdonságokhoz, például margóhoz, kitöltéshez, szegélyhez stb. Ez a beállítás a teljes kibontott űrlapot fogja használni. Vegye figyelembe, hogy a CSS mindig kibővül, amikor olyan EPUB\-fájlokat állít elő, amelyek kimeneti profilja valamelyik Nook\-profilra van beállítva, mivel a Nook nem tudja kezelni a gyorsított CSS\-t.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-extra\-css
+Külső CSS fájl teljes útvonala vagy CSS kód. Ezek a szabályok felülírják a forrásfájlban lévő stílusokat.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-filter\-css
+A minden CSS szabályból eltávolítani kívánt CSS tulajdonságok vesszővel tagolt listája. Ez hasznos lehet, ha néhány stílus információt az olvasó eszköz nem tud kezelni, felülírni, vagy figyelmen kívül hagyni. Például: font\-family,color,margin\-left,margin\-right
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-font\-size\-mapping
+CSS betűnevek megfeleltetése betűméret pontoknak. Vegyük például a 12,12,14,16,18,20,22,24 méreteket. Ezek fognak megfelelni az xx\-small\-tól az xx\-large méreteknek. A betű átméretező algoritmus intelligensen behelyettesíti a megfelelő méreteket. Alapértelmezett: a kimeneti profilban beállított értékek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-insert\-blank\-line
+Egy üres sor beillesztése a bekezdések közé. Nem működik, ha a forrásfájl nem használ bekezdéseket (<p> vagy <div> címkéket).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-insert\-blank\-line\-size
+A beillesztendő üres sorok magassága (em\-ben). A bekezdések között ennek az értéknek a kétszerese lesz, mert eléjük és utánuk is beszúrásra kerül.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-keep\-ligatures
+Ligatúrák megőrzése a forrás dokumentumban. A ligatúra egy betűpár különleges megjelenése, például: ff, fi, fl, stb. A legtöbb olvasó nem támogatja a ligatúrákat az alap betűtípusaikban, így nem valószínű, hogy helyesen jelennének meg. Alapból a Calibre a ligatúrákat normál betűpárra cseréli. Ez az opció megtartja őket.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-line\-height
+Sormagasság pontban. Megadja az egymást követő sorok közti távolságot. Csak azokra az elemekre vonatkozik, amik nem adják meg a sormagasságot. Legtöbb esetben a minimális sormagasság használata célszerűbb. Alapból nincs sormagasság módosítás.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-linearize\-tables
+Néhány rosszul megtervezett dokumentumban szükségtelenül alkalmaznak táblázatokat a szöveg formázására. Ezeknél a fájloknál a táblázatokban lévő szöveg gyakran nem fér ki a lapra. Ez az opció kinyeri a táblázat tartalmát és soros szöveggé alakítja azt.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-margin\-bottom
+Az alsó margó beállítása pontokban. Alapértelmezés 5.0. Ha nulla értékre állítja be, akkor nem lesz margó (az eredeti dokumentum margóbeállítása megmarad). Megjegyzés: Az oldalorientált formátumok, például a PDF és a DOCX saját margó beállításokkal rendelkeznek, amelyek elsőbbséget élveznek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-margin\-left
+A bal oldali margó beállítása pontokban. Alapértelmezés 5.0. Ha nulla értékre állítja be, akkor nem lesz margó (az eredeti dokumentum margóbeállítása megmarad). Megjegyzés: Az oldalorientált formátumok, például a PDF és a DOCX saját margó beállításokkal rendelkeznek, amelyek elsőbbséget élveznek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-margin\-right
+A jobb oldali margó beállítása pontokban. Alapértelmezés 5.0. Ha nulla értékre állítja be, akkor nem lesz margó (az eredeti dokumentum margóbeállítása megmarad). Megjegyzés: Az oldalorientált formátumok, például a PDF és a DOCX saját margó beállításokkal rendelkeznek, amelyek elsőbbséget élveznek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-margin\-top
+A felső margó beállítása pontokban. Alapértelmezés 5.0. Ha nulla értékre állítja be, akkor nem lesz margó (az eredeti dokumentum margóbeállítása megmarad). Megjegyzés: Az oldalorientált formátumok, például a PDF és a DOCX saját margó beállításokkal rendelkeznek, amelyek elsőbbséget élveznek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-minimum\-line\-height
+Minimális sormagasság, az elem számolt betűméretének százaléka. A Calibre biztosítja, hogy minden elem, legalább az itt megadott érték legyen, a forrás dokumentumban megadottól függetlenül. Állítsa 0\-ra a kikapcsoláshoz. Alapérték: 120%. Közvetlen sormagasság megadására is használható. Duplán széthúzott szöveg érhető el például 240\-re állítva az értéket.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-remove\-paragraph\-spacing
+Bekezdések közötti szünet eltüntetése. Egyúttal a behúzást is 1.5\-re állítja. Ez a funkció nem működik, ha a forrás fájl nem használ bekezdéseket (<p> vagy <div> HTML címkéket).
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-remove\-paragraph\-spacing\-indent\-size
+Amikor a Calibre eltávolítja az üres sorokat, automatikusan behúzással látja a következő bekezdést a könnyebb olvashatóság érdekében. Ez az opció ennek a behúzásnak a beállítására szolgál (em\-ben). Ha az értéket negatívra állítja, akkor a Calibre nem módosítja a behúzást.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-smarten\-punctuation
+Egyszerű idézőjelek, kötőjelek és ellipszisek konvertálása tipográfiai megfelelőjükre. További részletek: \fI\%https://daringfireball.net/projects/smartypants\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-subset\-embedded\-fonts
+Minden beágyazott betűtípus csak azokat a betűket fogja tartalmazni, melyek szükségesek a könyvhöz. Ez csökkenti a betűfájl méretét. Hasznos lehet, ha nagyméretű betűtípus fájlokat használ, melyek sok, nem használt karaktert is tartalmaznak.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-transform\-css\-rules
+A könyvben szereplő CSS\-stílusok átalakítására szolgáló szabályokat tartalmazó fájl elérési útja. Az ilyen fájl létrehozásának legegyszerűbb módja a varázsló használata a szabályok létrehozásához a Calibre  GUI\-ban. Hozzáférhet a \fB\(dq\fPBeállítások\fB\(dq\fP párbeszédpanel „Közös beállítások\->Kinézet és megjelenés\->Stílusok átalakítása” részében. Miután létrehozta a szabályokat, az \fB\(dq\fPExportálás\fB\(dq\fP gombbal mentheti őket fájlba.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-transform\-html\-rules
+Útvonal egy olyan fájlhoz, amely szabályokat tartalmaz a könyv HTML\-kódjának átalakítására. Az ilyen fájl létrehozásának legegyszerűbb módja a varázsló használata a szabályok létrehozásához a Calibre GUI\-ban. Hozzáférhet a \fB\(dq\fPBeállítások\fB\(dq\fP  párbeszédpanel \fB\(dq\fPKözös beállítások\->Kinézet és megjelenés\->HTML átalakítása\fB\(dq\fP részében. Miután létrehozta a szabályokat, az \fB\(dq\fPExportálás\fB\(dq\fP gombbal mentheti őket fájlba.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-unsmarten\-punctuation
+Az elegánsabb, szebb írásjelek (idézőjel, gondolatjel, stb.) egyszerűbb megfelelőit használja.
+.UNINDENT
+.SH HEURISZTIKUS FELDOLGOZÁS
+.sp
+A dokumentum szövegének és felépítésének módosítása megadott minták alapján. Alapértelmezetten ki van kapcsolva. Engedélyezéshez ezt használja: \-\-enable\-heuristics, letiltáshoz ezt: \-\-disable\-
+.nf
+*
+.fi
+\&.
+.INDENT 0.0
+.TP
+.B \-\-disable\-dehyphenate
+Elemzi az elválasztott szavakat a dokumentumban. Maga a dokumentum szolgál szótárként annak meghatározásához, hogy az elválasztójel szükséges vagy eltávolítandó.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-delete\-blank\-paragraphs
+Üres bekezdések eltávolítása a dokumentumból, ha más, nem üres bekezdések között vannak
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-fix\-indents
+A több nem\-törhető szóközzel létrehozott behúzásokat alakítsa CSS behúzássá.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-format\-scene\-breaks
+A balra rendezett fejezet elválasztók középre rendezettek lesznek. A több üres sort is tartalmazó fejezet elválasztókat lecseréli vízszintes vonalra.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-italicize\-common\-cases
+Dőlt szövegre utaló szavak és minták keresése, és a találatok dőltté tétele.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-markup\-chapter\-headings
+Ismerje fel a formázatlan fejezet címeket és alcímeket. Változtassa őket h2 és h3 tag\-ekké. Ez a beállítás nem hoz létre Tartalomjegyzéket, de később használható a „Struktúra felismerés” módban egy létrehozásához.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-renumber\-headings
+Az egymást követő <h1> és <h2> HTML tag\-eket rendezi sorba, hogy a címsorokban ne legyen törés.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-unwrap\-lines
+Sortördelés megszüntetése az írásjelek és egyéb formázások használatával.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-enable\-heuristics
+Heurisztikus feldolgozás. Ezt be kell kapcsolni, hogy bármilyen heurisztikus feldolgozás megtörténjen.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-html\-unwrap\-factor
+Arány meghatározása, ahonnan egy sor tördelése megszüntetendő. Az érvényes értékek 0 és 1 között vannak. Az alap 0.4, ami a fél sornál egy kicsit rövidebb. Ha csak pár sort kellene egysorossá tenni a dokumentumban, akkor érdemes csökkenteni ezt az értéket
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-replace\-scene\-breaks
+Fejezet elválasztók cseréje a kiválasztott szövegre. Alapértelmezettként a forrás dokumentumban szereplő kerül alkalmazásra.
+.UNINDENT
+.SH KERESÉS ÉS CSERE
+.sp
+A dokumentum szövegének és felépítésének módosítása felhasználó által megadott minták alapján.
+.INDENT 0.0
+.TP
+.B \-\-search\-replace
+Keresési és csere reguláris kifejezéseket tartalmazó fájl elérési útja. A fájlnak tartalmaznia kell a reguláris kifejezés váltakozó sorait, amelyeket helyettesítési minta követ (amely lehet egy üres sor is). A reguláris kifejezésnek Python regex szintaxisában kell lennie, és a fájlnak UTF\-8 kódolásúnak kell lennie.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sr1\-replace
+Helyettesítő szöveg az első reguláris kifejezéssel talált szöveg cseréjére.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sr1\-search
+Az első csere mintája (reguláris kifejezés)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sr2\-replace
+Helyettesítő szöveg a második reguláris kifejezéssel talált szöveg cseréjére.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sr2\-search
+A második csere mintája (reguláris kifejezés)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sr3\-replace
+Helyettesítő szöveg a harmadik reguláris kifejezéssel talált szöveg cseréjére.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-sr3\-search
+A harmadik csere mintája (reguláris kifejezés)
+.UNINDENT
+.SH STRUKTÚRA FELISMERÉS
+.sp
+Dokumentum\-struktúra automatikus felismerése.
+.INDENT 0.0
+.TP
+.B \-\-chapter
+XPath kifejezés a fejezetcímek észlelésére. Az alapértelmezés szerint minden <h1> vagy (or)  <h2> címkét, amely a „fejezet”, „könyv”, „szakasz”, „prológus”, „epilógus” vagy „rész” szavakat tartalmazza fejezetcímként kell kezelni, valamint minden olyan címkét, amelyhez class=\fB\(dq\fPchapter tartozik. A használt kifejezésnek ki kell értékelnie egy elemlistát. A fejezetfelismerés letiltásához használja a \fB\(dq\fP/\fB\(dq\fP kifejezést. A funkció használatához további segítségért tekintse meg a Calibre felhasználói kézikönyv XPath oktatóanyagát.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-chapter\-mark
+A felismert fejezetekre alkalmazandó formázás. A lehetséges értékek: „pagebreak” \- sortörés beillesztése minden fejezet elé; „rule” \- egy vízszintes vonal beillesztése minden fejezet elé; „none” \- egyiket se alkalmazza; „both” \- sortörés és vonal alkalmazása egyszerre.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-disable\-remove\-fake\-margins
+Egyes dokumentumok a bal és jobb margót minden bekezdésnél külön adják meg. A Calibre megpróbálja ezt felismerni és eltávolítani a felesleges margókat. Néha a szükséges margók is törlődnek. Ilyenkor ezzel ki lehet kapcsolni az eltávolítást.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-insert\-metadata
+Beilleszti a könyv metaadatait a könyv elejére. Ez akkor hasznos, ha az e\-könyv olvasója nem támogatja a metaadatok közvetlen megjelenítését/keresését.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-page\-breaks\-before
+Egy XPath kifejezés. A megadott elem elé oldaltörés lesz beillesztve. A tiltásához használja a következő kifejezést: /
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-prefer\-metadata\-cover
+Inkább a forrásfájlban található borítót használja a beállított borító helyett, ha elérhető.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-remove\-first\-image
+Távolítsa el az első képet a forrás e\-könyvből. Hasznos, ha a forrás dokumentum borítója nem megfelelő. Ha a borítót a Calibre\-vel állítja be, a kimeneti dokumentum két borítót tartalmazna, e lehetőség hiányában.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-start\-reading\-at
+XPath kifejezés, amely meghatározza azt a helyet a dokumentumban, ahol az olvasást elkezdheti. Egyes e\-könyv\-olvasó programok (leginkább a Kindle) ezt a helyet használják a könyv kinyitásának helyeként. A funkció használatához további segítségért tekintse meg a Calibre felhasználói kézikönyv XPath oktatóanyagát.
+.UNINDENT
+.SH TARTALOMJEGYZÉK
+.sp
+Az automatikus Tartalomjegyzék\-generálás beállítása. Alapértelmezettként, ha a forrásfájl tartalmaz Tartalomjegyzéket, az kerül felhasználásra az automatikusan generált helyett.
+.INDENT 0.0
+.TP
+.B \-\-duplicate\-links\-in\-toc
+Amikor a bemeneti dokumentumban található hivatkozásokból tartalomjegyzéket hoz létre, engedélyezze az ismétlődő bejegyzéseket, azaz engedélyezzen egynél több bejegyzést ugyanazzal a szöveggel, feltéve, hogy azok más helyre mutatnak.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-level1\-toc
+XPath kifejezés, amely megadja azokat a „címkéket” (tags), melyek a Tartalomjegyzék első szintjére kerülnek. Tanulmányozza az XPath oktatóanyagot a Calibre Felhasználói kézikönyvében  további információkért.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-level2\-toc
+XPath kifejezés, amely megadja azokat a „címkéket” (tags), melyek a Tartalomjegyzék második szintjére kerülnek. Tanulmányozza az XPath oktatóanyagot a Calibre Felhasználói kézikönyvében a további információkért.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-level3\-toc
+XPath kifejezés, amely megadja azokat a „címkéket” (tags), melyek a Tartalomjegyzék harmadik szintjére kerülnek. Tanulmányozza az XPath oktatóanyagot a Calibre Felhasználói kézikönyvében a további információkért.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-max\-toc\-links
+A tartalomjegyzékbe beilleszthető linkek maximális száma. Állítsa 0\-ra a letiltáshoz. Alapértelmezett: 50. Csak akkor lesznek beszúrva a linkek, ha a számuk kisebb a beállítottnál.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-chapters\-in\-toc
+Ne adja hozzá az automatikusan felismert fejezeteket a tartalomjegyzékhez.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-toc\-filter
+A megadott reguláris kifejezésnek megfelelő bejegyzések eltávolítása a Tartalomjegyzékből. Az alárendelt, kapcsolódó bejegyzések is törölve lesznek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-toc\-threshold
+Ha ennél kevesebb fejezet detektálható automatikusan, akkor a tartalomjegyzékben a bejegyzések linkek legyenek. Alapértelmezett: 6
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-use\-auto\-toc
+Általában ha a forrásfájl tartalmaz Tartalomjegyzéket, az kerül felhasználásra az automatikusan generált helyett. Ezzel a beállítással mindig az automatikusan generált lesz használva.
+.UNINDENT
+.SH METAADATOK
+.sp
+A kimenet metaadat beállításaizz
+.INDENT 0.0
+.TP
+.B \-\-author\-sort
+A szerző alapján történő rendezéskor használandó karakterlánc.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-authors
+Adja meg a szerzőt. Több szerző esetén pontosvesszővel kell elválasztani azokat.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-book\-producer
+Könyv gyártójának megadása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-comments
+A könyv leírása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cover
+A borítót a megadott fájl vagy URL alapján állítása be
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-isbn
+Könyv ISBN azonosítójának megadása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-language
+Nyelv megadása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-pubdate
+Állítsa be a közzététel dátumát (feltehetően a helyi időzónában van, hacsak nincs kifejezetten megadva az időzóna)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-publisher
+A könyv kiadója.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-rating
+Értékelés. 1 és 5 közötti számnak kell lennie.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-read\-metadata\-from\-opf, \-\-from\-opf, \-m
+Metaadatok olvasása a meghatározott OPF fájlból. Ez felülírja a forrásfájl összes metaadatát.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-series
+Sorozat megadása, amibe tartozik a könyv.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-series\-index
+Könyv sorszámának megadása a sorozaton belül.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-tags
+Könyv címkéinek megadása. Ez egy vesszővel elválasztott lista legyen.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-timestamp
+Könyv időbélyeg megadása (már nem használt)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-title
+Könyvcím megadása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-title\-sort
+A rendezéshez használandó könyvcím verzió.
+.UNINDENT
+.SH HIBAKERESÉS
+.sp
+A hibakereséshez használható opciók
+.INDENT 0.0
+.TP
+.B \-\-debug\-pipeline, \-d
+A konvertálás egyes szakaszainak mentése a megadott mappába. Hasznos lehet, ha nem tudja, melyik szakasznál keletkezett a konvertálási hiba.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-verbose, \-v
+Bőbeszédűség szintje. Adja meg többször a nagyobb bőbeszédűség érdekében. Kétszer megadva teljes bőbeszédűséget, egyszer közepes bőbeszédűséget és nulla legkisebb bőbeszédűséget eredményez.
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.

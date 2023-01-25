@@ -1,0 +1,137 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "EBOOK-POLISH" "1" "január 06, 2023" "6.11.0" "calibre"
+.SH NAME
+ebook-polish \- ebook-polish
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+ebook\-polish [options] input_file [output_file]
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+A könyvek polirozása arról szól, hogy a tökéletesség fényét
+teszi a gondosan elkészített e\-könyveikre.
+A polírozás megpróbálja minimalizálni az e\-könyv belső kódjának módosításait.
+A konvertálástól eltérően, nem simítja ki a CSS\-t, nem nevezi át a fájlokat,
+nem módosítja a betűméretet, nem módosítja a margókat stb. Minden művelet csak
+a kívánt hatás eléréséhez szükséges minimális változtatásokat hajtja végre.
+.sp
+Ezt az eszközt az e\-könyvkészítési folyamat utolsó lépéseként kell használni..
+.sp
+Vegye figyelembe, hogy a polírozás csak AZW3 vagy EPUB formátumú fájlokon működik.
+.sp
+Amikor olyan argumentumokat ad át \fBebook\-polish\fP\-nak, amelyekben szóköz van, tegye idézőjelek közé az argumentumokat. Például: \(dq/some path/with spaces\(dq
+.SH [BEÁLLÍTÁSOK]
+.INDENT 0.0
+.TP
+.B \-\-add\-soft\-hyphens, \-H
+Szótag kötőjelek hozzáadása a könyv összes szavához. Ez lehetővé teszi a könyv jobb megjelenítését, ha a szöveg indokolt olyan olvasóknál, melyek nem támogatják az elválasztást.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-compress\-images, \-i
+A könyvben lévő képek veszteségmentes tömörítése, csökkentve a fájlméretet a képminőség befolyásolása nélkül.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-cover, \-c
+Útvonal a borítóképhez. Megváltoztatja az e\-könyvben megadott borítót. Ha nincs borító, vagy a borító nincs megfelelően azonosítva, új borítót helyez be.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-embed\-fonts, \-e
+Az összes olyan betűtípus beágyazása, amelyre hivatkozik a dokumentum, és még nincs beágyazva. Ez átkutatja a számítógépen a betűtípusokat, és ha megtalálja azokat,  beágyazódik a dokumentumba.. Kérjük, győződjön meg arról, hogy rendelkezik a dokumentumban használt betűtípusok beágyazásához szükséges megfelelő licenccel.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-help, \-h
+súgó megjelenítése és kilépés
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-jacket, \-j
+Egy \fB\(dq\fPkönyvborító” oldal beillesztése a könyv elejére, amely tartalmazza  a könyv összes metaadatát, például címet, címkéket, szerzőket, sorozatokat,  megjegyzéseket stb. Minden korábbi könyvborító kicserélésre kerül.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-opf, \-o
+Egy OPF fájl elérési útja. A könyv metaadatai az OPF fájlból frissülnek.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-remove\-jacket
+A korábban behelyezett könyvborító eltávolítása.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-remove\-soft\-hyphens
+Szótag kötőjelek eltávolítása minden szövegből a könyvben
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-remove\-unused\-css, \-u
+Távolítson el minden nem használt CSS\-szabályt a stíluslapokról és a <style> címkéket.  Egyes, gyártási sablonokból létrehozott könyvek nagyszámú extra CSS\-szabályt tartalmazhatnak,  amelyek nem egyeznek semmilyen tényleges tartalommal. Ezek az extra szabályok lelassíthatják az olvasókat,  melyeknek mindegyiket elemezniük kell.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-smarten\-punctuation, \-p
+Konvertálja az egyszerű szöveges kötőjeleket, ellipsziseket, idézőjeleket, többszörös kötőjeleket stb.  tipográfiailag helyes megfelelőire. Ne feledje, hogy az algoritmus néha hibás eredményeket generálhat, különösen akkor,  ha az összehúzódások elején egyetlen idézőjelről van szó.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-subset\-fonts, \-f
+A betűkészletek részhalmaza azt jelenti, hogy a beágyazott betűtípust  úgy csökkentik, hogy csak az abból a betűtípusból használt karaktereket  tartalmazzák a könyvben. Ez nagymértékben csökkenti a betűfájlok méretét  (gyakori a betű méretek felezése). Például, ha a könyv egy adott betűtípust használ a fejlécekhez, akkor az alkészlet csökkenti azt a betűtípust, hogy csak a könyv  tényleges fejléceiben szereplő karaktereket tartalmazza.  Vagy ha a könyv beágyazza egy betűtípus félkövér és dőlt változatát,  de a félkövér és dőlt szöveg viszonylag ritka, vagy teljesen hiányzik, akkor  a félkövér és dőlt betűtípus vagy néhány karakterre csökkenthető, vagy  teljesen eltávolítható. A betűkészletek részhalmazának egyetlen hátránya, hogy ha egy későbbi  időpontban úgy dönt, hogy további szöveget ad a könyveihez, előfordulhat,  hogy az újonnan hozzáadott szöveget nem fedi az alkészlet betűtípusa..
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-upgrade\-book, \-U
+Ha lehetséges, a könyv belső szerkezetétnek frissítése. Például,  EPUB 2 könyvek frissítése EPUB 3 formátumra.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-verbose
+Részletesebb kimenet generálása, hasznos hibakereséskor.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version
+program verziójának megjelenítése és kilépés
+.UNINDENT
+.SH AUTHOR
+Kovid Goyal
+.SH COPYRIGHT
+Kovid Goyal
+.\" Generated by docutils manpage writer.
+.
